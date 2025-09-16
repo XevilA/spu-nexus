@@ -1,308 +1,329 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   User, 
   FileText, 
   Briefcase, 
   TrendingUp, 
-  Clock, 
-  CheckCircle, 
+  Clock,
+  CheckCircle,
   AlertCircle,
-  Eye,
-  Edit,
-  Send,
-  Building2,
-  Calendar,
-  Target
+  Plus
 } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { Navbar } from "@/components/ui/navbar";
 
 const StudentDashboard = () => {
+  const { user, loading, profile } = useAuth();
+  const navigate = useNavigate();
+  const [dashboardData, setDashboardData] = useState({
+    applications: 0,
+    portfolio: null,
+    recentJobs: []
+  });
+  const [dataLoading, setDataLoading] = useState(true);
+
+  // Redirect non-authenticated users
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate('/');
+    }
+  }, [user, loading, navigate]);
+
+  // Fetch dashboard data
+  useEffect(() => {
+    if (user) {
+      fetchDashboardData();
+    }
+  }, [user]);
+
+  const fetchDashboardData = async () => {
+    try {
+      // Fetch applications count
+      const { count: applicationsCount } = await supabase
+        .from('applications')
+        .select('*', { count: 'exact' })
+        .eq('student_uid', user?.id);
+
+      // Fetch portfolio status
+      const { data: portfolio } = await supabase
+        .from('portfolios')
+        .select('*')
+        .eq('student_uid', user?.id)
+        .single();
+
+      // Fetch recent jobs
+      const { data: recentJobs } = await supabase
+        .from('jobs')
+        .select(`
+          *,
+          companies (
+            name
+          )
+        `)
+        .eq('status', 'OPEN')
+        .order('created_at', { ascending: false })
+        .limit(3);
+
+      setDashboardData({
+        applications: applicationsCount || 0,
+        portfolio,
+        recentJobs: recentJobs || []
+      });
+    } catch (error) {
+      console.error('Error fetching dashboard data:', error);
+    } finally {
+      setDataLoading(false);
+    }
+  };
+
+  if (loading || !user) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-background to-muted flex items-center justify-center">
+        <div className="animate-pulse text-center">
+          <div className="bg-muted rounded-lg p-8">Loading...</div>
+        </div>
+      </div>
+    );
+  }
+
+  const portfolioStatus = dashboardData.portfolio?.status || 'none';
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case 'APPROVED':
+        return <Badge className="bg-spu-success text-white">อนุมัติแล้ว</Badge>;
+      case 'SUBMITTED':
+        return <Badge className="bg-spu-warning text-white">รอการอนุมัติ</Badge>;
+      case 'CHANGES_REQUESTED':
+        return <Badge className="bg-spu-warning text-white">ต้องแก้ไข</Badge>;
+      case 'REJECTED':
+        return <Badge className="bg-spu-error text-white">ถูกปฏิเสธ</Badge>;
+      case 'DRAFT':
+        return <Badge variant="outline">แก้ไขอยู่</Badge>;
+      default:
+        return <Badge variant="outline">ยังไม่มี Portfolio</Badge>;
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-background to-muted">
+      <Navbar />
+      
       {/* Header */}
-      <header className="bg-primary text-primary-foreground px-6 py-4">
-        <div className="container mx-auto flex justify-between items-center">
-          <div className="text-2xl font-bold">SPU U2B</div>
-          <div className="flex items-center gap-4">
-            <Badge variant="secondary" className="bg-white text-primary">
-              <CheckCircle className="w-4 h-4 mr-1" />
-              Verified Student
-            </Badge>
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
-                <User className="w-4 h-4" />
-              </div>
-              <span className="font-medium">สมชาย ใจดี</span>
+      <div className="bg-white border-b border-border">
+        <div className="container mx-auto px-6 py-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-foreground">Student Dashboard</h1>
+              <p className="text-muted-foreground mt-1">ยินดีต้อนรับ {profile?.display_name || user.email}</p>
+            </div>
+            <div className="flex gap-3">
+              <Link to="/portfolio">
+                <Button variant="outline" className="flex items-center gap-2">
+                  <FileText className="w-4 h-4" />
+                  จัดการ Portfolio
+                </Button>
+              </Link>
+              <Link to="/jobs">
+                <Button className="flex items-center gap-2">
+                  <Briefcase className="w-4 h-4" />
+                  หางาน
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
-      </header>
+      </div>
 
+      {/* Main Content */}
       <div className="container mx-auto px-6 py-8">
-        {/* Welcome Section */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">ยินดีต้อนรับ, สมชาย!</h1>
-          <p className="text-muted-foreground">
-            วิศวกรรมศาสตร์ ปี 3 • Computer Engineering • คะแนนเฉลี่ย 3.45
-          </p>
-        </div>
-
-        {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <Card className="shadow-card">
-            <CardContent className="pt-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground">งานที่สมัคร</p>
-                  <p className="text-2xl font-bold text-primary">12</p>
-                </div>
-                <Briefcase className="h-8 w-8 text-primary" />
-              </div>
-            </CardContent>
-          </Card>
-          <Card className="shadow-card">
-            <CardContent className="pt-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground">Offer ที่ได้รับ</p>
-                  <p className="text-2xl font-bold text-spu-success">3</p>
-                </div>
-                <Target className="h-8 w-8 text-spu-success" />
-              </div>
-            </CardContent>
-          </Card>
-          <Card className="shadow-card">
-            <CardContent className="pt-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground">Portfolio Views</p>
-                  <p className="text-2xl font-bold">89</p>
-                </div>
-                <Eye className="h-8 w-8 text-accent" />
-              </div>
-            </CardContent>
-          </Card>
-          <Card className="shadow-card">
-            <CardContent className="pt-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground">คะแนนเฉลี่ย</p>
-                  <p className="text-2xl font-bold">4.2/5</p>
-                </div>
-                <TrendingUp className="h-8 w-8 text-primary" />
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        <Tabs defaultValue="overview" className="w-full">
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="overview">ภาพรวม</TabsTrigger>
-            <TabsTrigger value="portfolio">Portfolio</TabsTrigger>
-            <TabsTrigger value="applications">การสมัครงาน</TabsTrigger>
-            <TabsTrigger value="progress">ความคืบหน้า</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="overview" className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Portfolio Status */}
-              <Card className="shadow-card">
-                <CardHeader>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Left Column - Stats & Quick Actions */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Stats Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <Card className="bg-gradient-card shadow-card hover:shadow-hover transition-all duration-300">
+                <CardContent className="p-6">
                   <div className="flex items-center justify-between">
-                    <CardTitle className="flex items-center gap-2">
-                      <FileText className="h-5 w-5" />
-                      Portfolio Status
-                    </CardTitle>
-                    <Badge className="bg-spu-success text-white">
-                      <CheckCircle className="w-4 h-4 mr-1" />
-                      Approved
-                    </Badge>
-                  </div>
-                  <CardDescription>
-                    Portfolio ของคุณได้รับการอนุมัติแล้ว เมื่อ 15 ธ.ค. 2567
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <div className="flex justify-between text-sm">
-                      <span>ความสมบูรณ์</span>
-                      <span className="font-medium">95%</span>
+                    <div>
+                      <p className="text-sm font-medium text-muted-foreground">ใบสมัครทั้งหมด</p>
+                      <p className="text-3xl font-bold text-spu-pink">{dashboardData.applications}</p>
                     </div>
-                    <Progress value={95} className="h-2" />
-                    <Button variant="outline" size="sm" className="w-full">
-                      <Edit className="w-4 h-4 mr-2" />
-                      แก้ไข Portfolio
-                    </Button>
+                    <Briefcase className="w-8 h-8 text-spu-pink" />
                   </div>
                 </CardContent>
               </Card>
 
-              {/* Recent Activity */}
-              <Card className="shadow-card">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Clock className="h-5 w-5" />
-                    กิจกรรมล่าสุด
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <div className="flex items-start gap-3">
-                      <div className="w-2 h-2 bg-spu-success rounded-full mt-2"></div>
-                      <div className="flex-1">
-                        <p className="text-sm font-medium">ได้รับ Offer จาก ABC Company</p>
-                        <p className="text-xs text-muted-foreground">2 ชั่วโมงที่แล้ว</p>
+              <Card className="bg-gradient-card shadow-card hover:shadow-hover transition-all duration-300">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-muted-foreground">งานที่เปิด</p>
+                      <p className="text-3xl font-bold text-spu-success">{dashboardData.recentJobs.length}</p>
+                    </div>
+                    <Clock className="w-8 h-8 text-spu-success" />
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-gradient-card shadow-card hover:shadow-hover transition-all duration-300">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-muted-foreground">Portfolio</p>
+                      <div className="mt-2">
+                        {getStatusBadge(portfolioStatus)}
                       </div>
                     </div>
-                    <div className="flex items-start gap-3">
-                      <div className="w-2 h-2 bg-primary rounded-full mt-2"></div>
-                      <div className="flex-1">
-                        <p className="text-sm font-medium">สมัครงาน Frontend Developer</p>
-                        <p className="text-xs text-muted-foreground">1 วันที่แล้ว</p>
+                    <FileText className="w-8 h-8 text-spu-neutral" />
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-gradient-card shadow-card hover:shadow-hover transition-all duration-300">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-muted-foreground">การยืนยัน</p>
+                      <div className="mt-2">
+                        {profile?.verified_student ? (
+                          <Badge className="bg-spu-success text-white">
+                            <CheckCircle className="w-3 h-3 mr-1" />
+                            ยืนยันแล้ว
+                          </Badge>
+                        ) : (
+                          <Badge className="bg-spu-warning text-white">
+                            <AlertCircle className="w-3 h-3 mr-1" />
+                            รอการยืนยัน
+                          </Badge>
+                        )}
                       </div>
                     </div>
-                    <div className="flex items-start gap-3">
-                      <div className="w-2 h-2 bg-accent rounded-full mt-2"></div>
-                      <div className="flex-1">
-                        <p className="text-sm font-medium">Portfolio ได้รับการดู 5 ครั้ง</p>
-                        <p className="text-xs text-muted-foreground">2 วันที่แล้ว</p>
-                      </div>
-                    </div>
+                    <User className="w-8 h-8 text-spu-neutral" />
                   </div>
                 </CardContent>
               </Card>
             </div>
 
-            {/* Recommended Jobs */}
-            <Card className="shadow-card">
+            {/* Quick Actions */}
+            <Card className="bg-white shadow-card">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Briefcase className="h-5 w-5" />
-                  งานที่แนะนำสำหรับคุณ
+                  <Plus className="w-5 h-5" />
+                  การดำเนินการด่วน
                 </CardTitle>
-                <CardDescription>
-                  งานที่เหมาะกับทักษะและความสนใจของคุณ
-                </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <Card className="border shadow-sm hover:shadow-card transition-shadow">
-                    <CardContent className="pt-4">
-                      <div className="flex items-start justify-between mb-3">
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
-                            <Building2 className="w-5 h-5 text-primary" />
-                          </div>
-                          <div>
-                            <h4 className="font-semibold">Frontend Developer Intern</h4>
-                            <p className="text-sm text-muted-foreground">Tech Startup Co.</p>
-                          </div>
-                        </div>
-                        <Badge variant="secondary">Internship</Badge>
-                      </div>
-                      <p className="text-sm text-muted-foreground mb-3">
-                        React, TypeScript, Tailwind CSS
-                      </p>
-                      <div className="flex gap-2">
-                        <Button size="sm" className="flex-1">
-                          <Send className="w-4 h-4 mr-2" />
-                          สมัครเลย
-                        </Button>
-                        <Button variant="outline" size="sm">
-                          <Eye className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-
-                  <Card className="border shadow-sm hover:shadow-card transition-shadow">
-                    <CardContent className="pt-4">
-                      <div className="flex items-start justify-between mb-3">
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 bg-accent/10 rounded-lg flex items-center justify-center">
-                            <Building2 className="w-5 h-5 text-accent" />
-                          </div>
-                          <div>
-                            <h4 className="font-semibold">Mobile App Developer</h4>
-                            <p className="text-sm text-muted-foreground">Digital Agency</p>
-                          </div>
-                        </div>
-                        <Badge className="bg-spu-warning text-white">Freelance</Badge>
-                      </div>
-                      <p className="text-sm text-muted-foreground mb-3">
-                        Flutter, React Native, UI/UX
-                      </p>
-                      <div className="flex gap-2">
-                        <Button size="sm" className="flex-1">
-                          <Send className="w-4 h-4 mr-2" />
-                          ส่ง Proposal
-                        </Button>
-                        <Button variant="outline" size="sm">
-                          <Eye className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
+                  {!dashboardData.portfolio && (
+                    <Link to="/portfolio">
+                      <Card className="border border-dashed border-muted-foreground/25 hover:border-spu-pink/50 transition-colors cursor-pointer">
+                        <CardContent className="p-6 text-center">
+                          <FileText className="w-8 h-8 text-spu-pink mx-auto mb-2" />
+                          <h3 className="font-semibold text-foreground">สร้าง Portfolio</h3>
+                          <p className="text-sm text-muted-foreground">เริ่มสร้าง e-Portfolio ของคุณ</p>
+                        </CardContent>
+                      </Card>
+                    </Link>
+                  )}
+                  
+                  <Link to="/jobs">
+                    <Card className="border border-dashed border-muted-foreground/25 hover:border-spu-pink/50 transition-colors cursor-pointer">
+                      <CardContent className="p-6 text-center">
+                        <Briefcase className="w-8 h-8 text-spu-pink mx-auto mb-2" />
+                        <h3 className="font-semibold text-foreground">เรียกดูงาน</h3>
+                        <p className="text-sm text-muted-foreground">ค้นหาโอกาสงานใหม่ๆ</p>
+                      </CardContent>
+                    </Card>
+                  </Link>
                 </div>
               </CardContent>
             </Card>
-          </TabsContent>
+          </div>
 
-          <TabsContent value="portfolio">
-            <Card className="shadow-card">
+          {/* Right Column - Recent Jobs & Profile Summary */}
+          <div className="space-y-6">
+            {/* Profile Summary */}
+            <Card className="bg-white shadow-card">
               <CardHeader>
-                <CardTitle>Portfolio Management</CardTitle>
-                <CardDescription>
-                  จัดการข้อมูลส่วนตัว ทักษะ และผลงานของคุณ
-                </CardDescription>
+                <CardTitle className="flex items-center gap-2">
+                  <User className="w-5 h-5" />
+                  ข้อมูลส่วนตัว
+                </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground mb-4">
-                  Portfolio builder จะอยู่ในหน้านี้...
-                </p>
-                <Button>
-                  <Edit className="w-4 h-4 mr-2" />
-                  แก้ไข Portfolio
-                </Button>
+                <div className="text-center mb-4">
+                  <div className="w-16 h-16 bg-spu-pink/10 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <User className="w-8 h-8 text-spu-pink" />
+                  </div>
+                  <h3 className="font-semibold text-foreground">{profile?.display_name || user.email}</h3>
+                  <p className="text-sm text-muted-foreground">
+                    {profile?.faculty && profile?.program ? 
+                      `${profile.faculty} - ${profile.program}` : 
+                      'กรุณาอัปเดตข้อมูลส่วนตัว'
+                    }
+                  </p>
+                </div>
+                <Link to="/portfolio">
+                  <Button variant="outline" size="sm" className="w-full">
+                    แก้ไขข้อมูล
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
-          </TabsContent>
 
-          <TabsContent value="applications">
-            <Card className="shadow-card">
+            {/* Recent Jobs */}
+            <Card className="bg-white shadow-card">
               <CardHeader>
-                <CardTitle>การสมัครงานของฉัน</CardTitle>
-                <CardDescription>
-                  ติดตามสถานะการสมัครงานทั้งหมด
-                </CardDescription>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="flex items-center gap-2">
+                    <Briefcase className="w-5 h-5" />
+                    งานล่าสุด
+                  </CardTitle>
+                  <Link to="/jobs">
+                    <Button variant="ghost" size="sm">ดูทั้งหมด</Button>
+                  </Link>
+                </div>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground mb-4">
-                  รายการการสมัครงานจะอยู่ในหน้านี้...
-                </p>
+                {dataLoading ? (
+                  <div className="space-y-3">
+                    {[1, 2, 3].map((i) => (
+                      <div key={i} className="animate-pulse">
+                        <div className="h-4 bg-muted rounded w-3/4 mb-2"></div>
+                        <div className="h-3 bg-muted rounded w-1/2"></div>
+                      </div>
+                    ))}
+                  </div>
+                ) : dashboardData.recentJobs.length > 0 ? (
+                  <div className="space-y-4">
+                    {dashboardData.recentJobs.map((job: any) => (
+                      <div key={job.id} className="border-l-2 border-spu-pink/20 pl-4">
+                        <h4 className="font-medium text-foreground text-sm">{job.title}</h4>
+                        <p className="text-xs text-muted-foreground">{job.companies?.name}</p>
+                        <p className="text-xs text-muted-foreground">{job.location}</p>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-sm text-muted-foreground text-center py-4">
+                    ไม่มีงานใหม่ในขณะนี้
+                  </p>
+                )}
+                
+                <Link to="/jobs" className="block mt-4">
+                  <Button size="sm" className="w-full bg-spu-pink hover:bg-spu-pink/80">
+                    ดูงานทั้งหมด
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
-          </TabsContent>
-
-          <TabsContent value="progress">
-            <Card className="shadow-card">
-              <CardHeader>
-                <CardTitle>ความคืบหน้าในการทำงาน</CardTitle>
-                <CardDescription>
-                  ติดตาม Probation และผลการประเมิน
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground mb-4">
-                  การติดตาม Probation จะอยู่ในหน้านี้...
-                </p>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
+          </div>
+        </div>
       </div>
     </div>
   );

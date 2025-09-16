@@ -1,25 +1,47 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Users, Building2, GraduationCap, Star, ArrowRight, CheckCircle, TrendingUp } from "lucide-react";
+import { Users, Building2, GraduationCap, Star, ArrowRight, CheckCircle, TrendingUp, LogIn } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
+import { useEffect } from "react";
 
 const Landing = () => {
+  const { user, signInWithGoogle, loading } = useAuth();
+  const navigate = useNavigate();
+
+  // Redirect authenticated users to dashboard
+  useEffect(() => {
+    if (user && !loading) {
+      navigate('/dashboard');
+    }
+  }, [user, loading, navigate]);
+
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation */}
-      <nav className="bg-primary text-primary-foreground px-6 py-4">
+      <nav className="bg-spu-pink text-white px-6 py-4">
         <div className="container mx-auto flex justify-between items-center">
           <div className="text-2xl font-bold">SPU U2B</div>
           <div className="flex gap-4">
-            <Button variant="ghost" className="text-primary-foreground hover:bg-white/10">
-              สำหรับนักศึกษา
-            </Button>
-            <Button variant="ghost" className="text-primary-foreground hover:bg-white/10">
-              สำหรับบริษัท
-            </Button>
-            <Button variant="secondary" size="sm">
-              เข้าสู่ระบบ
-            </Button>
+            {user ? (
+              <Link to="/dashboard">
+                <Button variant="secondary" size="sm" className="bg-white text-spu-pink">
+                  แดชบอร์ด
+                </Button>
+              </Link>
+            ) : (
+              <Button 
+                variant="secondary" 
+                size="sm"
+                onClick={signInWithGoogle}
+                disabled={loading}
+                className="bg-white text-spu-pink hover:bg-white/90 flex items-center gap-2"
+              >
+                <LogIn className="w-4 h-4" />
+                เข้าสู่ระบบ
+              </Button>
+            )}
           </div>
         </div>
       </nav>
@@ -35,13 +57,30 @@ const Landing = () => {
             และระบบติดตามผลการทำงานแบบโปร่งใสตั้งแต่สมัครจนผ่านโปรฯ
           </p>
           <div className="flex gap-4 justify-center">
-            <Button variant="secondary" size="lg" className="bg-white text-primary hover:bg-white/90">
-              เริ่มต้นเป็นนักศึกษา
-              <ArrowRight className="ml-2" />
-            </Button>
-            <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-primary">
-              สำหรับองค์กร
-            </Button>
+            {user ? (
+              <Link to="/dashboard">
+                <Button variant="secondary" size="lg" className="bg-white text-spu-pink hover:bg-white/90">
+                  เข้าสู่แดชบอร์ด
+                  <ArrowRight className="ml-2" />
+                </Button>
+              </Link>
+            ) : (
+              <Button 
+                variant="secondary" 
+                size="lg" 
+                onClick={signInWithGoogle}
+                disabled={loading}
+                className="bg-white text-spu-pink hover:bg-white/90 flex items-center gap-2"
+              >
+                <LogIn className="w-5 h-5" />
+                เข้าสู่ระบบด้วย Google
+              </Button>
+            )}
+            <Link to="/jobs">
+              <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-spu-pink">
+                ดูงานทั้งหมด
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
@@ -52,29 +91,29 @@ const Landing = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             <Card className="text-center shadow-card">
               <CardContent className="pt-6">
-                <Users className="h-12 w-12 text-primary mx-auto mb-4" />
-                <div className="text-3xl font-bold text-primary">2,500+</div>
+                <Users className="h-12 w-12 text-spu-pink mx-auto mb-4" />
+                <div className="text-3xl font-bold text-spu-pink">2,500+</div>
                 <p className="text-muted-foreground">นักศึกษาที่ได้รับการยืนยัน</p>
               </CardContent>
             </Card>
             <Card className="text-center shadow-card">
               <CardContent className="pt-6">
-                <Building2 className="h-12 w-12 text-primary mx-auto mb-4" />
-                <div className="text-3xl font-bold text-primary">150+</div>
+                <Building2 className="h-12 w-12 text-spu-pink mx-auto mb-4" />
+                <div className="text-3xl font-bold text-spu-pink">150+</div>
                 <p className="text-muted-foreground">บริษัทพาร์ทเนอร์</p>
               </CardContent>
             </Card>
             <Card className="text-center shadow-card">
               <CardContent className="pt-6">
-                <GraduationCap className="h-12 w-12 text-primary mx-auto mb-4" />
-                <div className="text-3xl font-bold text-primary">85%</div>
+                <GraduationCap className="h-12 w-12 text-spu-pink mx-auto mb-4" />
+                <div className="text-3xl font-bold text-spu-pink">85%</div>
                 <p className="text-muted-foreground">อัตราผ่าน Probation</p>
               </CardContent>
             </Card>
             <Card className="text-center shadow-card">
               <CardContent className="pt-6">
-                <Star className="h-12 w-12 text-primary mx-auto mb-4" />
-                <div className="text-3xl font-bold text-primary">4.8/5</div>
+                <Star className="h-12 w-12 text-spu-pink mx-auto mb-4" />
+                <div className="text-3xl font-bold text-spu-pink">4.8/5</div>
                 <p className="text-muted-foreground">คะแนนความพึงพอใจ</p>
               </CardContent>
             </Card>
@@ -98,7 +137,7 @@ const Landing = () => {
             </Card>
             <Card className="shadow-card hover:shadow-hover transition-all duration-300">
               <CardHeader>
-                <TrendingUp className="h-12 w-12 text-primary mb-4" />
+                <TrendingUp className="h-12 w-12 text-spu-pink mb-4" />
                 <CardTitle>ติดตามผลงานโปร่งใส</CardTitle>
                 <CardDescription>
                   ระบบติดตาม Probation แบบ Real-time พร้อมระบบประเมินผลที่โปร่งใสและเป็นธรรม
@@ -124,7 +163,7 @@ const Landing = () => {
           <h2 className="text-4xl font-bold text-center mb-16">วิธีการใช้งาน</h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="text-center">
-              <div className="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
+              <div className="w-16 h-16 bg-spu-pink text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
                 1
               </div>
               <h3 className="text-xl font-semibold mb-2">สร้าง e-Portfolio</h3>
@@ -133,7 +172,7 @@ const Landing = () => {
               </p>
             </div>
             <div className="text-center">
-              <div className="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
+              <div className="w-16 h-16 bg-spu-pink text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
                 2
               </div>
               <h3 className="text-xl font-semibold mb-2">ขออนุมัติจากคณะ</h3>
@@ -142,7 +181,7 @@ const Landing = () => {
               </p>
             </div>
             <div className="text-center">
-              <div className="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
+              <div className="w-16 h-16 bg-spu-pink text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
                 3
               </div>
               <h3 className="text-xl font-semibold mb-2">สมัครงาน</h3>
@@ -151,7 +190,7 @@ const Landing = () => {
               </p>
             </div>
             <div className="text-center">
-              <div className="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
+              <div className="w-16 h-16 bg-spu-pink text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
                 4
               </div>
               <h3 className="text-xl font-semibold mb-2">ติดตามผลงาน</h3>
@@ -172,15 +211,30 @@ const Landing = () => {
           <p className="text-xl mb-8 opacity-90">
             เข้าร่วมกับนักศึกษา SPU หลายพันคนที่ได้รับโอกาสทำงานที่ดี
           </p>
-          <Button variant="secondary" size="lg" className="bg-white text-primary hover:bg-white/90">
-            เริ่มต้นเลย - ฟรี!
-            <ArrowRight className="ml-2" />
-          </Button>
+          {user ? (
+            <Link to="/dashboard">
+              <Button variant="secondary" size="lg" className="bg-white text-spu-pink hover:bg-white/90">
+                เข้าสู่แดชบอร์ด
+                <ArrowRight className="ml-2" />
+              </Button>
+            </Link>
+          ) : (
+            <Button 
+              variant="secondary" 
+              size="lg" 
+              onClick={signInWithGoogle}
+              disabled={loading}
+              className="bg-white text-spu-pink hover:bg-white/90 flex items-center gap-2"
+            >
+              <LogIn className="w-5 h-5" />
+              เริ่มต้นเลย - ฟรี!
+            </Button>
+          )}
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-primary text-primary-foreground py-12">
+      <footer className="bg-spu-pink text-white py-12">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
