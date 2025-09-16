@@ -41,6 +41,68 @@ export type Database = {
         }
         Relationships: []
       }
+      applications: {
+        Row: {
+          accepted_at: string | null
+          created_at: string | null
+          declined_at: string | null
+          id: string
+          is_freelance: boolean | null
+          job_id: string | null
+          offered_at: string | null
+          portfolio_version: number | null
+          proposal: Json | null
+          start_date: string | null
+          status: string | null
+          status_history: Json | null
+          student_uid: string | null
+          submitted_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          accepted_at?: string | null
+          created_at?: string | null
+          declined_at?: string | null
+          id?: string
+          is_freelance?: boolean | null
+          job_id?: string | null
+          offered_at?: string | null
+          portfolio_version?: number | null
+          proposal?: Json | null
+          start_date?: string | null
+          status?: string | null
+          status_history?: Json | null
+          student_uid?: string | null
+          submitted_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          accepted_at?: string | null
+          created_at?: string | null
+          declined_at?: string | null
+          id?: string
+          is_freelance?: boolean | null
+          job_id?: string | null
+          offered_at?: string | null
+          portfolio_version?: number | null
+          proposal?: Json | null
+          start_date?: string | null
+          status?: string | null
+          status_history?: Json | null
+          student_uid?: string | null
+          submitted_at?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "applications_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: false
+            referencedRelation: "jobs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       blog_categories: {
         Row: {
           created_at: string | null
@@ -200,6 +262,33 @@ export type Database = {
           },
         ]
       }
+      companies: {
+        Row: {
+          created_at: string | null
+          domain: string | null
+          hr_owner_uid: string | null
+          id: string
+          name: string
+          verified: boolean | null
+        }
+        Insert: {
+          created_at?: string | null
+          domain?: string | null
+          hr_owner_uid?: string | null
+          id?: string
+          name: string
+          verified?: boolean | null
+        }
+        Update: {
+          created_at?: string | null
+          domain?: string | null
+          hr_owner_uid?: string | null
+          id?: string
+          name?: string
+          verified?: boolean | null
+        }
+        Relationships: []
+      }
       contact_info: {
         Row: {
           address: string | null
@@ -341,39 +430,176 @@ export type Database = {
         }
         Relationships: []
       }
+      jobs: {
+        Row: {
+          budget_or_salary: string | null
+          company_id: string | null
+          created_at: string | null
+          deadline_at: string | null
+          description: string
+          hash_key: string | null
+          id: string
+          job_type: string
+          location: string | null
+          posted_at: string | null
+          requirements: Json | null
+          source: string | null
+          status: string | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          budget_or_salary?: string | null
+          company_id?: string | null
+          created_at?: string | null
+          deadline_at?: string | null
+          description: string
+          hash_key?: string | null
+          id?: string
+          job_type: string
+          location?: string | null
+          posted_at?: string | null
+          requirements?: Json | null
+          source?: string | null
+          status?: string | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          budget_or_salary?: string | null
+          company_id?: string | null
+          created_at?: string | null
+          deadline_at?: string | null
+          description?: string
+          hash_key?: string | null
+          id?: string
+          job_type?: string
+          location?: string | null
+          posted_at?: string | null
+          requirements?: Json | null
+          source?: string | null
+          status?: string | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "jobs_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      portfolios: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          availability: string | null
+          certificates: Json | null
+          created_at: string | null
+          education: Json | null
+          expected_rate: number | null
+          id: string
+          languages: Json | null
+          portfolio_version: number | null
+          projects: Json | null
+          skills: Json | null
+          status: string
+          student_uid: string | null
+          submitted_at: string | null
+          updated_at: string | null
+          visibility: string | null
+          work_samples: Json | null
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          availability?: string | null
+          certificates?: Json | null
+          created_at?: string | null
+          education?: Json | null
+          expected_rate?: number | null
+          id?: string
+          languages?: Json | null
+          portfolio_version?: number | null
+          projects?: Json | null
+          skills?: Json | null
+          status?: string
+          student_uid?: string | null
+          submitted_at?: string | null
+          updated_at?: string | null
+          visibility?: string | null
+          work_samples?: Json | null
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          availability?: string | null
+          certificates?: Json | null
+          created_at?: string | null
+          education?: Json | null
+          expected_rate?: number | null
+          id?: string
+          languages?: Json | null
+          portfolio_version?: number | null
+          projects?: Json | null
+          skills?: Json | null
+          status?: string
+          student_uid?: string | null
+          submitted_at?: string | null
+          updated_at?: string | null
+          visibility?: string | null
+          work_samples?: Json | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
           created_at: string | null
           display_name: string | null
           email: string
+          faculty: string | null
           first_name: string | null
           id: string
           last_name: string | null
+          program: string | null
           role: string | null
           updated_at: string | null
+          verified_student: boolean | null
+          year: number | null
         }
         Insert: {
           avatar_url?: string | null
           created_at?: string | null
           display_name?: string | null
           email: string
+          faculty?: string | null
           first_name?: string | null
           id: string
           last_name?: string | null
+          program?: string | null
           role?: string | null
           updated_at?: string | null
+          verified_student?: boolean | null
+          year?: number | null
         }
         Update: {
           avatar_url?: string | null
           created_at?: string | null
           display_name?: string | null
           email?: string
+          faculty?: string | null
           first_name?: string | null
           id?: string
           last_name?: string | null
+          program?: string | null
           role?: string | null
           updated_at?: string | null
+          verified_student?: boolean | null
+          year?: number | null
         }
         Relationships: []
       }
@@ -685,6 +911,10 @@ export type Database = {
       create_profiles_table_if_not_exists: {
         Args: Record<PropertyKey, never>
         Returns: undefined
+      }
+      get_current_user_role: {
+        Args: Record<PropertyKey, never>
+        Returns: string
       }
     }
     Enums: {
