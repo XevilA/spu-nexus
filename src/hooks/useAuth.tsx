@@ -8,6 +8,8 @@ interface AuthContextType {
   session: Session | null;
   loading: boolean;
   signInWithGoogle: () => Promise<void>;
+  signInWithEmail: (email: string, password: string) => Promise<{ error: any }>;
+  signUpWithEmail: (email: string, password: string) => Promise<{ error: any }>;
   signOut: () => Promise<void>;
   profile: any;
 }
@@ -83,6 +85,63 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const signInWithEmail = async (email: string, password: string) => {
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password
+      });
+      
+      if (error) {
+        toast({
+          title: "Authentication Error",
+          description: error.message,
+          variant: "destructive"
+        });
+        return { error };
+      }
+      
+      return { error: null };
+    } catch (error) {
+      toast({
+        title: "Authentication Error", 
+        description: "Failed to sign in",
+        variant: "destructive"
+      });
+      return { error };
+    }
+  };
+
+  const signUpWithEmail = async (email: string, password: string) => {
+    try {
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/`
+        }
+      });
+      
+      if (error) {
+        toast({
+          title: "Authentication Error",
+          description: error.message,
+          variant: "destructive"
+        });
+        return { error };
+      }
+      
+      return { error: null };
+    } catch (error) {
+      toast({
+        title: "Authentication Error", 
+        description: "Failed to sign up",
+        variant: "destructive"
+      });
+      return { error };
+    }
+  };
+
   const signOut = async () => {
     try {
       const { error } = await supabase.auth.signOut();
@@ -108,6 +167,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       session,
       loading,
       signInWithGoogle,
+      signInWithEmail,
+      signUpWithEmail,
       signOut,
       profile
     }}>

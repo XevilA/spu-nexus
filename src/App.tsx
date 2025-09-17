@@ -10,6 +10,7 @@ import StudentDashboard from "./pages/StudentDashboard";
 import JobListings from "./pages/JobListings";
 import PortfolioBuilder from "./pages/PortfolioBuilder";
 import AdminDashboard from "./pages/AdminDashboard";
+import AdminAuth from "./pages/AdminAuth";
 import BusinessRegistration from "./pages/BusinessRegistration";
 import BusinessDashboard from "./pages/BusinessDashboard";
 import JobAcceptance from "./pages/JobAcceptance";
@@ -30,6 +31,7 @@ const App = () => (
             <Route path="/jobs" element={<JobListings />} />
             <Route path="/portfolio" element={<PortfolioBuilder />} />
             <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin-auth" element={<AdminAuth />} />
             <Route path="/business-registration" element={<BusinessRegistration />} />
             <Route path="/business-dashboard" element={<BusinessDashboard />} />
             <Route path="/job-acceptance/:applicationId" element={<JobAcceptance />} />

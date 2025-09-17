@@ -992,6 +992,10 @@ export type Database = {
       }
     }
     Functions: {
+      create_admin_profile: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
       create_admin_whitelist_if_not_exists: {
         Args: Record<PropertyKey, never>
         Returns: undefined
