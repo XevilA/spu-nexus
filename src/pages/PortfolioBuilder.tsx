@@ -104,9 +104,9 @@ const PortfolioBuilder = () => {
           languages: Array.isArray(data.languages) ? data.languages : [],
           availability: data.availability || '',
           expected_rate: data.expected_rate?.toString() || '',
-          work_types: Array.isArray(data.work_types) ? data.work_types : [],
-          locations: Array.isArray(data.locations) ? data.locations : [],
-          freelance_rate: data.freelance_rate?.toString() || ''
+          work_types: Array.isArray((data as any).work_types) ? (data as any).work_types : [],
+          locations: Array.isArray((data as any).locations) ? (data as any).locations : [],
+          freelance_rate: (data as any).freelance_rate?.toString() || ''
         });
       }
     } catch (error) {

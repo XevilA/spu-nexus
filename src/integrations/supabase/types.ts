@@ -555,8 +555,10 @@ export type Database = {
           created_at: string | null
           education: Json | null
           expected_rate: number | null
+          freelance_rate: number | null
           id: string
           languages: Json | null
+          locations: Json | null
           portfolio_version: number | null
           projects: Json | null
           skills: Json | null
@@ -566,6 +568,7 @@ export type Database = {
           updated_at: string | null
           visibility: string | null
           work_samples: Json | null
+          work_types: Json | null
         }
         Insert: {
           approved_at?: string | null
@@ -575,8 +578,10 @@ export type Database = {
           created_at?: string | null
           education?: Json | null
           expected_rate?: number | null
+          freelance_rate?: number | null
           id?: string
           languages?: Json | null
+          locations?: Json | null
           portfolio_version?: number | null
           projects?: Json | null
           skills?: Json | null
@@ -586,6 +591,7 @@ export type Database = {
           updated_at?: string | null
           visibility?: string | null
           work_samples?: Json | null
+          work_types?: Json | null
         }
         Update: {
           approved_at?: string | null
@@ -595,8 +601,10 @@ export type Database = {
           created_at?: string | null
           education?: Json | null
           expected_rate?: number | null
+          freelance_rate?: number | null
           id?: string
           languages?: Json | null
+          locations?: Json | null
           portfolio_version?: number | null
           projects?: Json | null
           skills?: Json | null
@@ -606,6 +614,7 @@ export type Database = {
           updated_at?: string | null
           visibility?: string | null
           work_samples?: Json | null
+          work_types?: Json | null
         }
         Relationships: []
       }
