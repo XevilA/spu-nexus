@@ -41,6 +41,60 @@ export type Database = {
         }
         Relationships: []
       }
+      ai_usage_logs: {
+        Row: {
+          created_at: string | null
+          id: string
+          request_type: string
+          response_length: number | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          request_type: string
+          response_length?: number | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          request_type?: string
+          response_length?: number | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      application_messages: {
+        Row: {
+          application_id: string
+          content: string
+          created_at: string | null
+          id: string
+          sender_id: string
+          sender_name: string
+          sender_role: string
+        }
+        Insert: {
+          application_id: string
+          content: string
+          created_at?: string | null
+          id?: string
+          sender_id: string
+          sender_name: string
+          sender_role: string
+        }
+        Update: {
+          application_id?: string
+          content?: string
+          created_at?: string | null
+          id?: string
+          sender_id?: string
+          sender_name?: string
+          sender_role?: string
+        }
+        Relationships: []
+      }
       applications: {
         Row: {
           accepted_at: string | null

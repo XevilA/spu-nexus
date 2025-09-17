@@ -74,8 +74,17 @@ const ChatSystem = ({
 
   const fetchMessages = async () => {
     try {
-      // For now, we'll simulate messages since the table doesn't exist
-      setMessages([]);
+      const { data, error } = await supabase
+        .from('application_messages')
+        .select('*')
+        .eq('application_id', applicationId)
+        .order('created_at', { ascending: true });
+
+      if (error && error.code !== 'PGRST116') {
+        console.error('Error fetching messages:', error);
+      } else if (data) {
+        setMessages(data);
+      }
     } catch (error) {
       console.error('Error fetching messages:', error);
     }
