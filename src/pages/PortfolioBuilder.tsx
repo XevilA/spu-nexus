@@ -107,6 +107,114 @@ const PortfolioBuilder = () => {
 
   const completionPercentage = calculateCompletionPercentage();
 
+  const handleSaveDraft = async () => {
+    if (!user) return;
+
+    setSaving(true);
+    try {
+      const portfolioData = {
+        student_uid: user.id,
+        skills: formData.skills,
+        projects: formData.projects,
+        education: formData.education,
+        certificates: formData.certificates,
+        work_samples: formData.work_samples,
+        languages: formData.languages,
+        availability: formData.availability,
+        expected_rate: formData.expected_rate ? parseFloat(formData.expected_rate) : null,
+        status: 'DRAFT',
+        updated_at: new Date().toISOString()
+      };
+
+      if (portfolio) {
+        const { error } = await supabase
+          .from('portfolios')
+          .update(portfolioData)
+          .eq('id', portfolio.id);
+        if (error) throw error;
+      } else {
+        const { error } = await supabase
+          .from('portfolios')
+          .insert(portfolioData);
+        if (error) throw error;
+      }
+
+      toast({
+        title: "บันทึกสำเร็จ",
+        description: "Portfolio ของคุณได้รับการบันทึกแล้ว"
+      });
+
+      fetchPortfolio();
+    } catch (error) {
+      console.error('Error saving portfolio:', error);
+      toast({
+        title: "เกิดข้อผิดพลาด",
+        description: "ไม่สามารถบันทึกได้ กรุณาลองใหม่",
+        variant: "destructive"
+      });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleSubmitForApproval = async () => {
+    if (!user || completionPercentage < 80) {
+      toast({
+        title: "ข้อมูลไม่ครบถ้วน",
+        description: "กรุณากรอกข้อมูลให้ครบอย่างน้อย 80% ก่อนส่งขออนุมัติ",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setSaving(true);
+    try {
+      const portfolioData = {
+        student_uid: user.id,
+        skills: formData.skills,
+        projects: formData.projects,
+        education: formData.education,
+        certificates: formData.certificates,
+        work_samples: formData.work_samples,
+        languages: formData.languages,
+        availability: formData.availability,
+        expected_rate: formData.expected_rate ? parseFloat(formData.expected_rate) : null,
+        status: 'SUBMITTED',
+        submitted_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      };
+
+      if (portfolio) {
+        const { error } = await supabase
+          .from('portfolios')
+          .update(portfolioData)
+          .eq('id', portfolio.id);
+        if (error) throw error;
+      } else {
+        const { error } = await supabase
+          .from('portfolios')
+          .insert(portfolioData);
+        if (error) throw error;
+      }
+
+      toast({
+        title: "ส่งขออนุมัติสำเร็จ",
+        description: "Portfolio ของคุณได้รับการส่งไปยังผู้ดูแลเพื่อพิจารณาแล้ว"
+      });
+
+      fetchPortfolio();
+    } catch (error) {
+      console.error('Error submitting portfolio:', error);
+      toast({
+        title: "เกิดข้อผิดพลาด",
+        description: "ไม่สามารถส่งขออนุมัติได้ กรุณาลองใหม่",
+        variant: "destructive"
+      });
+    } finally {
+      setSaving(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -155,11 +263,18 @@ const PortfolioBuilder = () => {
                 <Eye className="w-4 h-4 mr-2" />
                 ดูตัวอย่าง
               </Button>
-              <Button variant="secondary">
+              <Button 
+                variant="secondary" 
+                onClick={handleSaveDraft}
+                disabled={saving}
+              >
                 <Save className="w-4 h-4 mr-2" />
-                บันทึกแบบร่าง
+                {saving ? "กำลังบันทึก..." : "บันทึกแบบร่าง"}
               </Button>
-              <Button>
+              <Button 
+                onClick={handleSubmitForApproval}
+                disabled={saving || completionPercentage < 80}
+              >
                 <Send className="w-4 h-4 mr-2" />
                 ส่งขออนุมัติ
               </Button>
