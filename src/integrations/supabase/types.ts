@@ -960,7 +960,36 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      public_contact_info: {
+        Row: {
+          created_at: string | null
+          facebook_url: string | null
+          id: string | null
+          instagram_url: string | null
+          map_embed_url: string | null
+          updated_at: string | null
+          working_hours: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          facebook_url?: string | null
+          id?: string | null
+          instagram_url?: string | null
+          map_embed_url?: string | null
+          updated_at?: string | null
+          working_hours?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          facebook_url?: string | null
+          id?: string | null
+          instagram_url?: string | null
+          map_embed_url?: string | null
+          updated_at?: string | null
+          working_hours?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       create_admin_whitelist_if_not_exists: {
@@ -978,6 +1007,16 @@ export type Database = {
       get_current_user_role: {
         Args: Record<PropertyKey, never>
         Returns: string
+      }
+      get_public_contact_info: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          facebook_url: string
+          id: string
+          instagram_url: string
+          map_embed_url: string
+          working_hours: string
+        }[]
       }
     }
     Enums: {
