@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -21,11 +22,90 @@ import {
   Trash2,
   Upload,
   CheckCircle,
-  AlertCircle
+  AlertCircle,
+  Brain,
+  Sparkles
 } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/components/ui/use-toast";
+import { Navbar } from "@/components/ui/navbar";
 
 const PortfolioBuilder = () => {
-  const completionPercentage = 85;
+  const { user, profile } = useAuth();
+  const { toast } = useToast();
+  const [portfolio, setPortfolio] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [aiAdvice, setAiAdvice] = useState('');
+  const [loadingAI, setLoadingAI] = useState(false);
+  
+  const [formData, setFormData] = useState({
+    skills: [],
+    projects: [],
+    education: [],
+    certificates: [],
+    work_samples: [],
+    languages: [],
+    availability: '',
+    expected_rate: ''
+  });
+
+  useEffect(() => {
+    if (user) {
+      fetchPortfolio();
+    }
+  }, [user]);
+
+  const fetchPortfolio = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('portfolios')
+        .select('*')
+        .eq('student_uid', user?.id)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .single();
+
+      if (error && error.code !== 'PGRST116') {
+        throw error;
+      }
+
+      if (data) {
+        setPortfolio(data);
+        setFormData({
+          skills: Array.isArray(data.skills) ? data.skills : [],
+          projects: Array.isArray(data.projects) ? data.projects : [],
+          education: Array.isArray(data.education) ? data.education : [],
+          certificates: Array.isArray(data.certificates) ? data.certificates : [],
+          work_samples: Array.isArray(data.work_samples) ? data.work_samples : [],
+          languages: Array.isArray(data.languages) ? data.languages : [],
+          availability: data.availability || '',
+          expected_rate: data.expected_rate?.toString() || ''
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching portfolio:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const calculateCompletionPercentage = () => {
+    const sections = [
+      formData.skills.length > 0,
+      formData.projects.length > 0,
+      formData.education.length > 0,
+      formData.languages.length > 0,
+      formData.availability,
+      formData.expected_rate
+    ];
+    
+    const completed = sections.filter(Boolean).length;
+    return Math.round((completed / sections.length) * 100);
+  };
+
+  const completionPercentage = calculateCompletionPercentage();
 
   return (
     <div className="min-h-screen bg-background">
