@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
 import { LogOut, User } from 'lucide-react';
+import NotificationCenter from '@/components/NotificationCenter';
 
 export function Navbar() {
   const { user, signOut, loading, profile } = useAuth();
@@ -23,6 +24,7 @@ export function Navbar() {
         
         {user ? (
           <div className="flex items-center gap-4">
+            <NotificationCenter />
             <div className="flex items-center gap-2">
               <User className="w-4 h-4" />
               <span className="text-sm">

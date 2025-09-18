@@ -22,6 +22,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
 import { Navbar } from "@/components/ui/navbar";
+import PortfolioViewer from "@/components/PortfolioViewer";
 
 const AdminDashboard = () => {
   const { user, profile } = useAuth();
@@ -254,10 +255,15 @@ const AdminDashboard = () => {
                     </div>
                     
                     <div className="flex gap-2">
-                      <Button variant="outline" size="sm">
-                        <Eye className="w-4 h-4 mr-2" />
-                        ดู Portfolio
-                      </Button>
+                      <PortfolioViewer 
+                        portfolioId={portfolio.id}
+                        trigger={
+                          <Button variant="outline" size="sm">
+                            <Eye className="w-4 h-4 mr-2" />
+                            ดู Portfolio
+                          </Button>
+                        }
+                      />
                       <Button 
                         size="sm" 
                         className="bg-spu-success text-white hover:bg-spu-success/90"

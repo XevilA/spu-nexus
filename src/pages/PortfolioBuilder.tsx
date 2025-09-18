@@ -37,6 +37,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
 import { Navbar } from "@/components/ui/navbar";
+import AIAssistant from "@/components/AIAssistant";
 
 const PortfolioBuilder = () => {
   const { user, profile } = useAuth();
@@ -463,45 +464,50 @@ const PortfolioBuilder = () => {
           </p>
         </div>
 
-        {/* Progress Card */}
-        <Card className="shadow-card mb-8">
-          <CardContent className="pt-6">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <h3 className="font-semibold">ความคืบหน้า Portfolio</h3>
-                <p className="text-sm text-muted-foreground">
-                  กรุณากรอกข้อมูลให้ครบถ้วนก่อนส่งขออนุมัติ
-                </p>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+          {/* Progress Card */}
+          <Card className="shadow-card lg:col-span-2">
+            <CardContent className="pt-6">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h3 className="font-semibold">ความคืบหน้า Portfolio</h3>
+                  <p className="text-sm text-muted-foreground">
+                    กรุณากรอกข้อมูลให้ครบถ้วนก่อนส่งขออนุมัติ
+                  </p>
+                </div>
+                <div className="text-right">
+                  <div className="text-2xl font-bold text-primary">{completionPercentage}%</div>
+                  <div className="text-sm text-muted-foreground">สมบูรณ์</div>
+                </div>
               </div>
-              <div className="text-right">
-                <div className="text-2xl font-bold text-primary">{completionPercentage}%</div>
-                <div className="text-sm text-muted-foreground">สมบูรณ์</div>
+              <Progress value={completionPercentage} className="h-3 mb-4" />
+              <div className="flex gap-2">
+                <Button variant="outline">
+                  <Eye className="w-4 h-4 mr-2" />
+                  ดูตัวอย่าง
+                </Button>
+                <Button 
+                  variant="secondary" 
+                  onClick={handleSaveDraft}
+                  disabled={saving}
+                >
+                  <Save className="w-4 h-4 mr-2" />
+                  {saving ? "กำลังบันทึก..." : "บันทึกแบบร่าง"}
+                </Button>
+                <Button 
+                  onClick={handleSubmitForApproval}
+                  disabled={saving || completionPercentage < 80}
+                >
+                  <Send className="w-4 h-4 mr-2" />
+                  ส่งขออนุมัติ
+                </Button>
               </div>
-            </div>
-            <Progress value={completionPercentage} className="h-3 mb-4" />
-            <div className="flex gap-2">
-              <Button variant="outline">
-                <Eye className="w-4 h-4 mr-2" />
-                ดูตัวอย่าง
-              </Button>
-              <Button 
-                variant="secondary" 
-                onClick={handleSaveDraft}
-                disabled={saving}
-              >
-                <Save className="w-4 h-4 mr-2" />
-                {saving ? "กำลังบันทึก..." : "บันทึกแบบร่าง"}
-              </Button>
-              <Button 
-                onClick={handleSubmitForApproval}
-                disabled={saving || completionPercentage < 80}
-              >
-                <Send className="w-4 h-4 mr-2" />
-                ส่งขออนุมัติ
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+
+          {/* AI Assistant */}
+          <AIAssistant type="portfolio_improvement" />
+        </div>
 
         <Tabs defaultValue="personal" className="w-full">
           <TabsList className="grid w-full grid-cols-6">

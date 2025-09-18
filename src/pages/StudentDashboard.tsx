@@ -16,6 +16,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Navbar } from "@/components/ui/navbar";
+import AIAssistant from "@/components/AIAssistant";
 
 const StudentDashboard = () => {
   const { user, loading, profile } = useAuth();
@@ -275,6 +276,9 @@ const StudentDashboard = () => {
                 </Link>
               </CardContent>
             </Card>
+
+            {/* AI Assistant */}
+            <AIAssistant type="job_recommendations" />
 
             {/* Recent Jobs */}
             <Card className="bg-white shadow-card">

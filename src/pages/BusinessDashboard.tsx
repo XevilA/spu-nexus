@@ -25,6 +25,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
 import { Navbar } from "@/components/ui/navbar";
 import { useNavigate } from "react-router-dom";
+import JobPostForm from "@/components/JobPostForm";
+import PortfolioViewer from "@/components/PortfolioViewer";
 
 const BusinessDashboard = () => {
   const { user, profile } = useAuth();
@@ -36,6 +38,7 @@ const BusinessDashboard = () => {
   const [portfolios, setPortfolios] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
+  const [showJobForm, setShowJobForm] = useState(false);
 
   useEffect(() => {
     if (profile?.role !== 'COMPANY_HR') {
@@ -241,11 +244,21 @@ const BusinessDashboard = () => {
           <TabsContent value="jobs" className="space-y-6">
             <div className="flex justify-between items-center">
               <h3 className="text-lg font-semibold">งานที่โพสต์</h3>
-              <Button>
+              <Button onClick={() => setShowJobForm(true)}>
                 <Plus className="w-4 h-4 mr-2" />
                 โพสต์งานใหม่
               </Button>
             </div>
+
+            {showJobForm && (
+              <JobPostForm 
+                onJobPosted={() => {
+                  setShowJobForm(false);
+                  fetchDashboardData();
+                }}
+                onCancel={() => setShowJobForm(false)}
+              />
+            )}
 
             <div className="space-y-4">
               {jobs.map((job: any) => (
@@ -338,10 +351,15 @@ const BusinessDashboard = () => {
                       </div>
                       
                       <div className="flex gap-2">
-                        <Button variant="outline" size="sm">
-                          <Eye className="w-4 h-4 mr-2" />
-                          ดู Portfolio
-                        </Button>
+                        <PortfolioViewer 
+                          studentId={application.student_uid}
+                          trigger={
+                            <Button variant="outline" size="sm">
+                              <Eye className="w-4 h-4 mr-2" />
+                              ดู Portfolio
+                            </Button>
+                          }
+                        />
                         {application.status === 'APPLIED' && (
                           <>
                             <Button 
