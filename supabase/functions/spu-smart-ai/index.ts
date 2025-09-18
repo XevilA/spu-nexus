@@ -23,23 +23,101 @@ serve(async (req) => {
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    const { userId, type = 'job_recommendations' } = await req.json();
+    const { userId, user_id, type = 'job_recommendations', question } = await req.json();
+    const actualUserId = userId || user_id;
 
-    if (!userId) {
+    if (!actualUserId) {
       throw new Error('User ID is required');
     }
 
-    // Get user profile and portfolio
+    // Handle general questions
+    if (type === 'general_question') {
+      if (!question) {
+        return new Response(JSON.stringify({ 
+          success: false, 
+          error: 'question is required for general questions' 
+        }), {
+          status: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        });
+      }
+
+      const prompt = `คุณคือ SPU Smart AI Assistant ที่เชี่ยวชาญด้านการแนะนำเรื่องการหางาน การสร้าง portfolio และการพัฒนาทักษะสำหรับนักศึกษา Saint Peter University
+
+คำถาม: ${question}
+
+โปรดตอบคำถามอย่างเป็นมิตรและให้ข้อมูลที่เป็นประโยชน์ เฉพาะเจาะจงและสามารถนำไปปฏิบัติได้จริง ในรูปแบบที่เข้าใจง่าย:`;
+
+      console.log('Generated prompt for general question:', prompt);
+
+      // Call Gemini API for general questions
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${GEMINI_API_KEY}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          contents: [
+            {
+              parts: [
+                {
+                  text: prompt
+                }
+              ]
+            }
+          ],
+          generationConfig: {
+            temperature: 0.7,
+            topK: 40,
+            topP: 0.95,
+            maxOutputTokens: 1024,
+          }
+        })
+      });
+
+      if (!response.ok) {
+        console.error('Gemini API error:', await response.text());
+        throw new Error('Failed to get response from Gemini API');
+      }
+
+      const geminiData = await response.json();
+      console.log('Gemini response:', geminiData);
+
+      if (!geminiData.candidates || !geminiData.candidates[0] || !geminiData.candidates[0].content) {
+        throw new Error('Invalid response format from Gemini API');
+      }
+
+      const aiAdvice = geminiData.candidates[0].content.parts[0].text;
+
+      // Log the usage
+      await supabase
+        .from('ai_usage_logs')
+        .insert({
+          user_id: actualUserId,
+          request_type: 'general_question',
+          response_length: aiAdvice.length
+        })
+        .catch(() => {}); // Ignore logging errors
+
+      return new Response(JSON.stringify({ 
+        success: true, 
+        advice: aiAdvice 
+      }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+      });
+    }
+
+    // Get user profile and portfolio for job recommendations and portfolio improvement
     const { data: profile } = await supabase
       .from('profiles')
       .select('*')
-      .eq('id', userId)
+      .eq('id', actualUserId)
       .single();
 
     const { data: portfolio } = await supabase
       .from('portfolios')
       .select('*')
-      .eq('student_uid', userId)
+      .eq('student_uid', actualUserId)
       .eq('status', 'APPROVED')
       .single();
 
@@ -156,7 +234,7 @@ ${portfolio ? `
       .from('ai_usage_logs')
       .insert([
         {
-          user_id: userId,
+          user_id: actualUserId,
           request_type: type,
           response_length: aiResponse.length,
           created_at: new Date().toISOString()
@@ -166,6 +244,7 @@ ${portfolio ? `
 
     return new Response(JSON.stringify({ 
       success: true,
+      advice: aiResponse,
       response: aiResponse,
       type: type,
       timestamp: new Date().toISOString()

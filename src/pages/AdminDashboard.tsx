@@ -132,7 +132,7 @@ const AdminDashboard = () => {
     }
   };
 
-  if (profile?.role !== 'ADMIN') {
+  if (!user || profile?.role !== 'ADMIN') {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <Card className="w-96">

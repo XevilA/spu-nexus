@@ -454,6 +454,60 @@ export type Database = {
         }
         Relationships: []
       }
+      employers: {
+        Row: {
+          address: string | null
+          company_description: string | null
+          company_name: string
+          company_size: string | null
+          contact_person_name: string | null
+          contact_person_position: string | null
+          created_at: string | null
+          id: string
+          industry: string | null
+          phone: string | null
+          updated_at: string | null
+          user_id: string
+          verification_documents: Json | null
+          verified: boolean | null
+          website: string | null
+        }
+        Insert: {
+          address?: string | null
+          company_description?: string | null
+          company_name: string
+          company_size?: string | null
+          contact_person_name?: string | null
+          contact_person_position?: string | null
+          created_at?: string | null
+          id?: string
+          industry?: string | null
+          phone?: string | null
+          updated_at?: string | null
+          user_id: string
+          verification_documents?: Json | null
+          verified?: boolean | null
+          website?: string | null
+        }
+        Update: {
+          address?: string | null
+          company_description?: string | null
+          company_name?: string
+          company_size?: string | null
+          contact_person_name?: string | null
+          contact_person_position?: string | null
+          created_at?: string | null
+          id?: string
+          industry?: string | null
+          phone?: string | null
+          updated_at?: string | null
+          user_id?: string
+          verification_documents?: Json | null
+          verified?: boolean | null
+          website?: string | null
+        }
+        Relationships: []
+      }
       gallery: {
         Row: {
           created_at: string | null
@@ -481,6 +535,69 @@ export type Database = {
           is_active?: boolean | null
           title?: string
           updated_at?: string | null
+        }
+        Relationships: []
+      }
+      job_seekers: {
+        Row: {
+          availability_start: string | null
+          created_at: string | null
+          experience: Json | null
+          faculty: string | null
+          full_name: string | null
+          gpa: number | null
+          graduation_year: number | null
+          id: string
+          interests: Json | null
+          phone: string | null
+          preferred_location: string | null
+          preferred_salary_max: number | null
+          preferred_salary_min: number | null
+          program: string | null
+          skills: Json | null
+          university: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          availability_start?: string | null
+          created_at?: string | null
+          experience?: Json | null
+          faculty?: string | null
+          full_name?: string | null
+          gpa?: number | null
+          graduation_year?: number | null
+          id?: string
+          interests?: Json | null
+          phone?: string | null
+          preferred_location?: string | null
+          preferred_salary_max?: number | null
+          preferred_salary_min?: number | null
+          program?: string | null
+          skills?: Json | null
+          university?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          availability_start?: string | null
+          created_at?: string | null
+          experience?: Json | null
+          faculty?: string | null
+          full_name?: string | null
+          gpa?: number | null
+          graduation_year?: number | null
+          id?: string
+          interests?: Json | null
+          phone?: string | null
+          preferred_location?: string | null
+          preferred_salary_max?: number | null
+          preferred_salary_min?: number | null
+          program?: string | null
+          skills?: Json | null
+          university?: string | null
+          updated_at?: string | null
+          user_id?: string
         }
         Relationships: []
       }
