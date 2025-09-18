@@ -6,6 +6,7 @@ import { Users, Building2, GraduationCap, Star, ArrowRight, CheckCircle, Trendin
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import AIPopup from "@/components/AIPopup";
+import TestAI from "@/components/TestAI";
 
 const Landing = () => {
   const { user, signInWithGoogle, loading } = useAuth();
@@ -22,13 +23,13 @@ const Landing = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation */}
-      <nav className="bg-spu-pink text-white px-6 py-4">
+      <nav className="bg-primary text-white px-6 py-4">
         <div className="container mx-auto flex justify-between items-center">
           <div className="text-2xl font-bold">SPU U2B</div>
           <div className="flex gap-4">
             {user ? (
               <Link to="/dashboard">
-                <Button variant="secondary" size="sm" className="bg-white text-spu-pink">
+                <Button variant="secondary" size="sm" className="bg-white text-primary">
                   แดชบอร์ด
                 </Button>
               </Link>
@@ -129,28 +130,28 @@ const Landing = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             <Card className="text-center shadow-card">
               <CardContent className="pt-6">
-                <Users className="h-12 w-12 text-spu-pink mx-auto mb-4" />
+                <Users className="h-12 w-12 text-primary mx-auto mb-4" />
                 <div className="text-3xl font-bold text-primary">2,500+</div>
                 <p className="text-muted-foreground">นักศึกษาที่ได้รับการยืนยัน</p>
               </CardContent>
             </Card>
             <Card className="text-center shadow-card">
               <CardContent className="pt-6">
-                <Building2 className="h-12 w-12 text-spu-pink mx-auto mb-4" />
+                <Building2 className="h-12 w-12 text-primary mx-auto mb-4" />
                 <div className="text-3xl font-bold text-primary">150+</div>
                 <p className="text-muted-foreground">บริษัทพาร์ทเนอร์</p>
               </CardContent>
             </Card>
             <Card className="text-center shadow-card">
               <CardContent className="pt-6">
-                <GraduationCap className="h-12 w-12 text-spu-pink mx-auto mb-4" />
+                <GraduationCap className="h-12 w-12 text-primary mx-auto mb-4" />
                 <div className="text-3xl font-bold text-primary">85%</div>
                 <p className="text-muted-foreground">อัตราผ่าน Probation</p>
               </CardContent>
             </Card>
             <Card className="text-center shadow-card">
               <CardContent className="pt-6">
-                <Star className="h-12 w-12 text-spu-pink mx-auto mb-4" />
+                <Star className="h-12 w-12 text-primary mx-auto mb-4" />
                 <div className="text-3xl font-bold text-primary">4.8/5</div>
                 <p className="text-muted-foreground">คะแนนความพึงพอใจ</p>
               </CardContent>
@@ -251,7 +252,7 @@ const Landing = () => {
           </p>
           {user ? (
             <Link to="/dashboard">
-              <Button variant="secondary" size="lg" className="bg-white text-spu-pink hover:bg-white/90">
+              <Button variant="secondary" size="lg" className="bg-white text-primary hover:bg-white/90">
                 เข้าสู่แดชบอร์ด
                 <ArrowRight className="ml-2" />
               </Button>
@@ -477,18 +478,18 @@ const Landing = () => {
       </section>
 
       {/* Footer */}
-      <footer className="bg-spu-pink-light text-foreground py-12">
+      <footer className="bg-black text-white py-12">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
               <h3 className="text-xl font-bold mb-4">SPU U2B</h3>
-              <p className="opacity-80">
+              <p className="text-white/80">
                 แพลตฟอร์มเชื่อมโยงนักศึกษากับโลกธุรกิจ
               </p>
             </div>
             <div>
               <h4 className="font-semibold mb-4">สำหรับนักศึกษา</h4>
-              <ul className="space-y-2 opacity-80">
+              <ul className="space-y-2 text-white/80">
                 <li>สร้าง Portfolio</li>
                 <li>ค้นหางาน</li>
                 <li>ติดตามสถานะ</li>
@@ -496,7 +497,7 @@ const Landing = () => {
             </div>
             <div>
               <h4 className="font-semibold mb-4">สำหรับองค์กร</h4>
-              <ul className="space-y-2 opacity-80">
+              <ul className="space-y-2 text-white/80">
                 <li>โพสต์งาน</li>
                 <li>ค้นหาคนเก่ง</li>
                 <li>จัดการ Probation</li>
@@ -504,13 +505,13 @@ const Landing = () => {
             </div>
             <div>
               <h4 className="font-semibold mb-4">ติดต่อเรา</h4>
-              <ul className="space-y-2 opacity-80">
+              <ul className="space-y-2 text-white/80">
                 <li>support@spu.ac.th</li>
                 <li>02-123-4567</li>
               </ul>
             </div>
           </div>
-          <div className="border-t border-muted mt-8 pt-8 text-center text-muted-foreground">
+          <div className="border-t border-white/20 mt-8 pt-8 text-center text-white/60">
             <p>&copy; 2024 SPU U2B. All rights reserved.</p>
           </div>
         </div>
@@ -518,6 +519,13 @@ const Landing = () => {
 
       {/* AI Popup */}
       <AIPopup isOpen={showAIPopup} onClose={() => setShowAIPopup(false)} />
+      
+      {/* Test AI - Remove this after testing */}
+      {user && (
+        <div className="fixed bottom-4 right-4 z-50">
+          <TestAI />
+        </div>
+      )}
     </div>
   );
 };
