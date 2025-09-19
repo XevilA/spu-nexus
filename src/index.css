@@ -2,56 +2,71 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Professional Enterprise Design System
+ * Brand: SPU Smart Job Platform
+ * Theme: Pink Gradient (#E91E63-#FF4081), White, Professional Black/Gray
+ * Accessibility: WCAG AA compliant colors and contrast
+ * All colors MUST be HSL.
+ */
 
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 0 0% 10%;
+    --foreground: 0 0% 5%; /* Deep professional black */
 
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 10%;
+    --card-foreground: 0 0% 5%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 10%;
+    --popover-foreground: 0 0% 5%;
 
-    /* Updated color scheme - pink theme */
-    --primary: 331 60% 65%; /* Pink */
+    /* Primary Pink Brand Colors - Professional Enterprise Pink Gradient */
+    --primary: 340 82% 52%; /* #E91E63 - Primary brand pink */
     --primary-foreground: 0 0% 100%;
+    --primary-light: 340 100% 70%; /* #FF4081 - Light accent pink */
 
-    --secondary: 331 30% 95%; /* Light pink */
-    --secondary-foreground: 0 0% 10%;
+    --secondary: 340 25% 96%; /* Ultra light pink background */
+    --secondary-foreground: 0 0% 20%; /* Dark gray for readability */
 
-    --muted: 331 20% 96%;
-    --muted-foreground: 0 0% 45%;
+    --muted: 0 0% 96%; /* Neutral light gray */
+    --muted-foreground: 0 0% 45%; /* Medium gray for subtle text */
 
-    --accent: 331 80% 75%; /* Bright pink */
-    --accent-foreground: 0 0% 0%;
+    --accent: 340 82% 52%; /* Same as primary for consistency */
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 91%;
-    --input: 0 0% 91%;
-    --ring: 0 0% 10%;
+    --border: 0 0% 88%; /* Light gray borders */
+    --input: 0 0% 96%; /* Light input background */
+    --ring: 340 82% 52%; /* Pink focus ring */
 
-    /* Custom SPU tokens */
-    --spu-pink: 331 60% 65%; /* Lighter pink */
-    --spu-pink-light: 331 50% 85%;
-    --spu-neutral: 0 0% 10%;
-    --spu-success: 142 76% 36%;
-    --spu-warning: 45 93% 47%;
-    --spu-error: 0 84% 60%;
+    /* Enterprise Color Palette */
+    --enterprise-pink: 340 82% 52%; /* #E91E63 */
+    --enterprise-pink-light: 340 100% 70%; /* #FF4081 */
+    --enterprise-pink-ultra-light: 340 25% 96%;
+    --enterprise-black: 0 0% 5%; /* Professional black */
+    --enterprise-gray-dark: 0 0% 20%; /* Dark gray for text */
+    --enterprise-gray: 0 0% 45%; /* Medium gray */
+    --enterprise-gray-light: 0 0% 88%; /* Light gray for borders */
+    --enterprise-white: 0 0% 100%;
     
-    /* Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(331 60% 65%), hsl(331 80% 75%));
-    --gradient-card: linear-gradient(180deg, hsl(331 30% 98%), hsl(331 20% 96%));
+    /* Success and Status Colors */
+    --success: 142 76% 36%;
+    --warning: 45 93% 47%;
+    --error: 0 84% 60%;
     
-    /* Shadows */
-    --shadow-card: 0 4px 16px hsl(331 60% 65% / 0.1);
-    --shadow-hover: 0 8px 32px hsl(331 60% 65% / 0.15);
+    /* Professional Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(340 82% 52%), hsl(340 100% 70%)); /* #E91E63 to #FF4081 */
+    --gradient-card: linear-gradient(180deg, hsl(0 0% 100%), hsl(340 25% 98%));
+    --gradient-footer: linear-gradient(135deg, hsl(0 0% 5%), hsl(0 0% 15%));
+    --gradient-hero: linear-gradient(135deg, hsl(340 82% 52%), hsl(340 100% 70%));
+    
+    /* Professional Shadows */
+    --shadow-card: 0 2px 8px hsl(0 0% 0% / 0.08);
+    --shadow-card-hover: 0 4px 16px hsl(0 0% 0% / 0.12);
+    --shadow-enterprise: 0 8px 32px hsl(340 82% 52% / 0.15);
+    --shadow-subtle: 0 1px 3px hsl(0 0% 0% / 0.1);
 
     --radius: 0.5rem;
 
@@ -73,39 +88,50 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 0 0% 5%;
-    --foreground: 0 0% 98%;
+    --background: 0 0% 8%;
+    --foreground: 0 0% 95%;
 
-    --card: 0 0% 8%;
-    --card-foreground: 0 0% 98%;
+    --card: 0 0% 10%;
+    --card-foreground: 0 0% 95%;
 
-    --popover: 0 0% 8%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 95%;
 
-    --primary: 331 60% 65%; /* Pink */
+    --primary: 340 82% 52%; /* Keep brand pink in dark mode */
     --primary-foreground: 0 0% 100%;
+    --primary-light: 340 100% 70%;
 
-    --secondary: 0 0% 8%; /* Dark background */
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 0 0% 12%; /* Dark background */
+    --secondary-foreground: 0 0% 85%;
 
     --muted: 0 0% 15%;
     --muted-foreground: 0 0% 65%;
 
-    --accent: 331 80% 75%; /* Bright pink */
-    --accent-foreground: 0 0% 0%;
+    --accent: 340 82% 52%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62% 51%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive-foreground: 0 0% 95%;
 
-    --border: 0 0% 15%;
+    --border: 0 0% 20%;
     --input: 0 0% 15%;
-    --ring: 331 100% 42%;
+    --ring: 340 82% 52%;
 
-    --spu-pink: 331 100% 42%;
-    --spu-pink-light: 331 100% 80%;
-    --spu-neutral: 0 0% 98%;
+    /* Dark mode enterprise colors */
+    --enterprise-pink: 340 82% 52%;
+    --enterprise-pink-light: 340 100% 70%;
+    --enterprise-pink-ultra-light: 340 25% 15%;
+    --enterprise-black: 0 0% 95%;
+    --enterprise-gray-dark: 0 0% 85%;
+    --enterprise-gray: 0 0% 65%;
+    --enterprise-gray-light: 0 0% 20%;
+    --enterprise-white: 0 0% 8%;
+    
+    /* Dark mode shadows */
     --shadow-card: 0 4px 16px hsl(0 0% 0% / 0.3);
-    --shadow-hover: 0 8px 32px hsl(0 0% 0% / 0.4);
+    --shadow-card-hover: 0 8px 32px hsl(0 0% 0% / 0.4);
+    --shadow-enterprise: 0 8px 32px hsl(340 82% 52% / 0.25);
+    --shadow-subtle: 0 2px 8px hsl(0 0% 0% / 0.2);
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
