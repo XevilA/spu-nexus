@@ -14,6 +14,63 @@ export type Database = {
   }
   public: {
     Tables: {
+      activities: {
+        Row: {
+          author_id: string | null
+          content: string
+          created_at: string | null
+          current_participants: number | null
+          end_at: string | null
+          id: string
+          images: Json | null
+          is_published: boolean | null
+          location: string | null
+          max_participants: number | null
+          registration_deadline: string | null
+          slug: string
+          start_at: string | null
+          tags: Json | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          author_id?: string | null
+          content: string
+          created_at?: string | null
+          current_participants?: number | null
+          end_at?: string | null
+          id?: string
+          images?: Json | null
+          is_published?: boolean | null
+          location?: string | null
+          max_participants?: number | null
+          registration_deadline?: string | null
+          slug: string
+          start_at?: string | null
+          tags?: Json | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          author_id?: string | null
+          content?: string
+          created_at?: string | null
+          current_participants?: number | null
+          end_at?: string | null
+          id?: string
+          images?: Json | null
+          is_published?: boolean | null
+          location?: string | null
+          max_participants?: number | null
+          registration_deadline?: string | null
+          slug?: string
+          start_at?: string | null
+          tags?: Json | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       admin_whitelist: {
         Row: {
           active: boolean | null
@@ -662,6 +719,54 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      news: {
+        Row: {
+          author_id: string | null
+          category: string | null
+          content: string
+          cover_image_url: string | null
+          created_at: string | null
+          excerpt: string | null
+          id: string
+          is_published: boolean | null
+          published_at: string | null
+          slug: string
+          tags: Json | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          author_id?: string | null
+          category?: string | null
+          content: string
+          cover_image_url?: string | null
+          created_at?: string | null
+          excerpt?: string | null
+          id?: string
+          is_published?: boolean | null
+          published_at?: string | null
+          slug: string
+          tags?: Json | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          author_id?: string | null
+          category?: string | null
+          content?: string
+          cover_image_url?: string | null
+          created_at?: string | null
+          excerpt?: string | null
+          id?: string
+          is_published?: boolean | null
+          published_at?: string | null
+          slug?: string
+          tags?: Json | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
       }
       portfolios: {
         Row: {

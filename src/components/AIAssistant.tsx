@@ -13,7 +13,7 @@ import {
   Star
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 
 interface AIAssistantProps {
   type: 'job_recommendations' | 'portfolio_improvement';
