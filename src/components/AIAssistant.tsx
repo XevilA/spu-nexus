@@ -111,13 +111,13 @@ const AIAssistant = ({ type, onAdviceReceived }: AIAssistantProps) => {
         </p>
 
         {advice && (
-          <div className="bg-gradient-to-r from-spu-pink/10 to-spu-success/10 border border-spu-pink/20 rounded-lg p-4">
+          <div className="bg-gradient-to-r from-primary/10 to-primary-light/10 border border-primary/20 rounded-lg p-4">
             <div className="flex items-start gap-3">
-              <div className="p-1.5 bg-spu-pink/20 rounded-full">
-                <Lightbulb className="h-4 w-4 text-spu-pink" />
+              <div className="p-1.5 bg-primary/20 rounded-full">
+                <Lightbulb className="h-4 w-4 text-primary" />
               </div>
               <div className="flex-1">
-                <h4 className="font-semibold text-spu-pink mb-2">คำแนะนำจาก AI</h4>
+                <h4 className="font-semibold text-primary mb-2">คำแนะนำจาก AI</h4>
                 <div className="text-sm text-foreground whitespace-pre-wrap leading-relaxed">
                   {advice}
                 </div>

@@ -90,14 +90,17 @@ serve(async (req) => {
       const aiAdvice = geminiData.candidates[0].content.parts[0].text;
 
       // Log the usage
-      await supabase
-        .from('ai_usage_logs')
-        .insert({
-          user_id: actualUserId,
-          request_type: 'general_question',
-          response_length: aiAdvice.length
-        })
-        .catch(() => {}); // Ignore logging errors
+      try {
+        await supabase
+          .from('ai_usage_logs')
+          .insert({
+            user_id: actualUserId,
+            request_type: 'general_question',
+            response_length: aiAdvice.length
+          });
+      } catch (logError) {
+        console.error('Failed to log AI usage:', logError);
+      }
 
       return new Response(JSON.stringify({ 
         success: true, 
@@ -230,17 +233,18 @@ ${portfolio ? `
     const aiResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || 'ขออภัย ไม่สามารถสร้างคำแนะนำได้ในขณะนี้';
 
     // Log AI usage (optional)
-    await supabase
-      .from('ai_usage_logs')
-      .insert([
-        {
+    try {
+      await supabase
+        .from('ai_usage_logs')
+        .insert({
           user_id: actualUserId,
           request_type: type,
           response_length: aiResponse.length,
           created_at: new Date().toISOString()
-        }
-      ])
-      .catch(() => {}); // Ignore logging errors
+        });
+    } catch (logError) {
+      console.error('Failed to log AI usage:', logError);
+    }
 
     return new Response(JSON.stringify({ 
       success: true,
