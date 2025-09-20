@@ -29,20 +29,22 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Landing />} />
-            <Route path="/dashboard" element={<StudentDashboard />} />
-            <Route path="/jobs" element={<JobListings />} />
-            <Route path="/portfolio" element={<PortfolioBuilder />} />
-            <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/admin-auth" element={<AdminAuth />} />
-            <Route path="/auth" element={<Auth />} />
-            <Route path="/business-registration" element={<BusinessRegistration />} />
-            <Route path="/business-dashboard" element={<BusinessDashboard />} />
-            <Route path="/job-acceptance/:applicationId" element={<JobAcceptance />} />
-            <Route path="/job-seeker" element={<JobSeekerDashboard />} />
-            <Route path="/employer" element={<EmployerDashboard />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
+                <Route path="/" element={<Landing />} />
+                <Route path="/home" element={<Index />} />
+                <Route path="/auth" element={<Auth />} />
+                <Route path="/admin-auth" element={<AdminAuth />} />
+                <Route path="/admin" element={<AdminDashboard />} />
+                <Route path="/business-registration" element={<BusinessRegistration />} />
+                <Route path="/business" element={<BusinessDashboard />} />
+                <Route path="/employer" element={<EmployerDashboard />} />
+                <Route path="/job-seeker" element={<JobSeekerDashboard />} />
+                <Route path="/student" element={<StudentDashboard />} />
+                <Route path="/jobs" element={<JobListings />} />
+                <Route path="/job-acceptance" element={<JobAcceptance />} />
+                <Route path="/portfolio" element={<PortfolioBuilder />} />
+                <Route path="/news" element={<News />} />
+                <Route path="/activities" element={<Activities />} />
+                <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
       </TooltipProvider>
