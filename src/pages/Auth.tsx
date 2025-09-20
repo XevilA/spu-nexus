@@ -72,25 +72,25 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-primary/10 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-light flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Back Button */}
         <Button
           variant="ghost"
           onClick={() => navigate('/')}
-          className="mb-6 text-muted-foreground hover:text-foreground bg-white/20 backdrop-blur-sm border border-white/30"
+          className="mb-6 text-muted-foreground hover:text-foreground bg-white border border-border shadow-sm"
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Home
         </Button>
 
-        <Card className="shadow-2xl bg-white/70 backdrop-blur-md border border-white/50">
+        <Card className="shadow-elegant bg-white border border-border">
           <CardHeader className="text-center space-y-4">
-            <div className="mx-auto w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center shadow-enterprise">
+            <div className="mx-auto w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center shadow-glow">
               <Mail className="w-8 h-8 text-white" />
             </div>
             <div>
-              <CardTitle className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+              <CardTitle className="text-3xl font-bold text-primary">
                 Welcome
               </CardTitle>
               <CardDescription className="text-muted-foreground">
@@ -101,9 +101,9 @@ const Auth = () => {
           
           <CardContent>
             <Tabs defaultValue="login" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 bg-white/50 backdrop-blur-sm">
-                <TabsTrigger value="login" className="data-[state=active]:bg-white/80">Sign In</TabsTrigger>
-                <TabsTrigger value="register" className="data-[state=active]:bg-white/80">Sign Up</TabsTrigger>
+              <TabsList className="grid w-full grid-cols-2 bg-muted">
+                <TabsTrigger value="login" className="data-[state=active]:bg-white data-[state=active]:text-primary">Sign In</TabsTrigger>
+                <TabsTrigger value="register" className="data-[state=active]:bg-white data-[state=active]:text-primary">Sign Up</TabsTrigger>
               </TabsList>
               
               <TabsContent value="login">
@@ -118,7 +118,7 @@ const Auth = () => {
                       value={formData.email}
                       onChange={handleInputChange}
                       required
-                      className="bg-white/50 backdrop-blur-sm border border-white/50 focus:bg-white/70"
+                      className="bg-white border border-input focus:border-primary"
                     />
                   </div>
                   
@@ -133,7 +133,7 @@ const Auth = () => {
                         value={formData.password}
                         onChange={handleInputChange}
                         required
-                        className="bg-white/50 backdrop-blur-sm border border-white/50 focus:bg-white/70 pr-10"
+                        className="bg-white border border-input focus:border-primary pr-10"
                       />
                       <Button
                         type="button"
@@ -153,7 +153,7 @@ const Auth = () => {
 
                   <Button 
                     type="submit" 
-                    className="w-full bg-gradient-primary hover:opacity-90 text-white shadow-enterprise" 
+                    className="w-full bg-gradient-primary hover:opacity-90 text-white shadow-glow" 
                     disabled={loading}
                   >
                     {loading ? 'Signing In...' : 'Sign In'}
@@ -173,7 +173,7 @@ const Auth = () => {
                       value={formData.email}
                       onChange={handleInputChange}
                       required
-                      className="bg-white/50 backdrop-blur-sm border border-white/50 focus:bg-white/70"
+                      className="bg-white border border-input focus:border-primary"
                     />
                   </div>
                   
@@ -188,7 +188,7 @@ const Auth = () => {
                         value={formData.password}
                         onChange={handleInputChange}
                         required
-                        className="bg-white/50 backdrop-blur-sm border border-white/50 focus:bg-white/70 pr-10"
+                        className="bg-white border border-input focus:border-primary pr-10"
                       />
                       <Button
                         type="button"
@@ -217,7 +217,7 @@ const Auth = () => {
                         value={formData.confirmPassword}
                         onChange={handleInputChange}
                         required
-                        className="bg-white/50 backdrop-blur-sm border border-white/50 focus:bg-white/70 pr-10"
+                        className="bg-white border border-input focus:border-primary pr-10"
                       />
                       <Button
                         type="button"
@@ -237,7 +237,7 @@ const Auth = () => {
 
                   <Button 
                     type="submit" 
-                    className="w-full bg-gradient-primary hover:opacity-90 text-white shadow-enterprise" 
+                    className="w-full bg-gradient-primary hover:opacity-90 text-white shadow-glow" 
                     disabled={loading}
                   >
                     {loading ? 'Creating Account...' : 'Create Account'}
@@ -249,10 +249,10 @@ const Auth = () => {
             <div className="mt-6">
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
-                  <span className="w-full border-t border-white/30" />
+                  <span className="w-full border-t border-border" />
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-white/50 backdrop-blur-sm px-2 text-muted-foreground rounded-full">
+                  <span className="bg-white px-2 text-muted-foreground">
                     Or continue with
                   </span>
                 </div>
@@ -261,7 +261,7 @@ const Auth = () => {
               <Button
                 variant="outline"
                 onClick={signInWithGoogle}
-                className="w-full mt-4 bg-white/50 backdrop-blur-sm border border-white/50 hover:bg-white/70"
+                className="w-full mt-4 bg-white border border-input hover:bg-muted"
                 disabled={loading}
               >
                 <Chrome className="h-4 w-4 mr-2" />

@@ -97,10 +97,10 @@ const PortfolioViewer = ({
 
   const getSkillLevelColor = (level: string) => {
     switch (level?.toLowerCase()) {
-      case 'expert': return 'bg-spu-success text-white';
-      case 'advanced': return 'bg-spu-pink text-white';
-      case 'intermediate': return 'bg-spu-warning text-white';
-      case 'beginner': return 'bg-spu-neutral text-white';
+      case 'expert': return 'bg-primary text-white';
+      case 'advanced': return 'bg-primary/80 text-white';
+      case 'intermediate': return 'bg-accent text-white';
+      case 'beginner': return 'bg-muted text-foreground';
       default: return 'bg-muted text-foreground';
     }
   };
@@ -146,11 +146,11 @@ const PortfolioViewer = ({
         ) : portfolio && student ? (
           <div className="space-y-6">
             {/* Student Header */}
-            <Card className="bg-gradient-card">
+            <Card className="bg-gradient-subtle border border-border">
               <CardContent className="pt-6">
                 <div className="flex items-start gap-4">
-                  <div className="w-16 h-16 bg-spu-pink/10 rounded-full flex items-center justify-center">
-                    <User className="w-8 h-8 text-spu-pink" />
+                  <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
+                    <User className="w-8 h-8 text-primary" />
                   </div>
                   <div className="flex-1">
                     <h3 className="text-xl font-semibold">
@@ -169,7 +169,7 @@ const PortfolioViewer = ({
                     </div>
                   </div>
                   <div className="flex gap-2">
-                    <Badge className="bg-spu-success text-white">
+                    <Badge className="bg-primary text-white">
                       {portfolio.status === 'APPROVED' ? 'ได้รับการอนุมัติ' : portfolio.status}
                     </Badge>
                   </div>
@@ -250,7 +250,7 @@ const PortfolioViewer = ({
                             href={project.url} 
                             target="_blank" 
                             rel="noopener noreferrer"
-                            className="flex items-center gap-1 text-spu-pink hover:underline"
+                            className="flex items-center gap-1 text-primary hover:underline"
                           >
                             <LinkIcon className="h-3 w-3" />
                             ดูโปรเจกต์
@@ -274,7 +274,7 @@ const PortfolioViewer = ({
                 </CardHeader>
                 <CardContent className="space-y-3">
                   {portfolio.education.map((edu: any, index: number) => (
-                    <div key={index} className="border-l-2 border-spu-pink pl-4">
+                    <div key={index} className="border-l-2 border-primary pl-4">
                       <h4 className="font-semibold">{edu.degree}</h4>
                       <p className="text-muted-foreground">{edu.institution}</p>
                       <p className="text-sm text-muted-foreground">
@@ -305,7 +305,7 @@ const PortfolioViewer = ({
                       </div>
                       <div className="flex items-center gap-2">
                         {cert.verified && (
-                          <Badge className="bg-spu-success text-white">
+                          <Badge className="bg-primary text-white">
                             <Star className="h-3 w-3 mr-1" />
                             ยืนยันแล้ว
                           </Badge>
@@ -401,7 +401,7 @@ const PortfolioViewer = ({
                 <Download className="h-4 w-4 mr-2" />
                 ดาวน์โหลด PDF
               </Button>
-              <Button className="flex-1 bg-spu-pink text-white hover:bg-spu-pink/80">
+              <Button className="flex-1 bg-gradient-primary text-white hover:opacity-90">
                 <MessageSquare className="h-4 w-4 mr-2" />
                 ติดต่อนักศึกษา
               </Button>

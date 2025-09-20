@@ -440,15 +440,15 @@ const PortfolioBuilder = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="bg-primary text-primary-foreground px-6 py-4">
+      <header className="bg-gradient-primary text-white px-6 py-4 shadow-glow">
         <div className="container mx-auto flex justify-between items-center">
           <div className="text-2xl font-bold">SPU U2B</div>
           <div className="flex items-center gap-4">
-            <Badge className="bg-spu-warning text-white">
+            <Badge className="bg-accent text-white shadow-sm">
               <AlertCircle className="w-4 h-4 mr-1" />
               รอการอนุมัติ
             </Badge>
-            <div className="text-sm">
+            <div className="text-sm text-primary-foreground">
               ความสมบูรณ์: {completionPercentage}%
             </div>
           </div>
@@ -466,7 +466,7 @@ const PortfolioBuilder = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
           {/* Progress Card */}
-          <Card className="shadow-card lg:col-span-2">
+          <Card className="shadow-elegant lg:col-span-2 bg-white border border-border">
             <CardContent className="pt-6">
               <div className="flex items-center justify-between mb-4">
                 <div>
