@@ -66,8 +66,8 @@ const AdminAuth = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md shadow-lg">
+    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-primary/10 flex items-center justify-center p-4">
+      <Card className="w-full max-w-md shadow-2xl bg-white/70 backdrop-blur-md border border-white/50">
         <CardHeader className="text-center space-y-4">
           <div className="mx-auto w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
             <Shield className="w-6 h-6 text-primary" />

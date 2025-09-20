@@ -62,6 +62,13 @@
     --gradient-footer: linear-gradient(135deg, hsl(0 0% 5%), hsl(0 0% 15%));
     --gradient-hero: linear-gradient(135deg, hsl(340 82% 52%), hsl(340 100% 70%));
     
+    /* Glassmorphism Effects */
+    --glass-light: hsla(0, 0%, 100%, 0.7);
+    --glass-medium: hsla(0, 0%, 100%, 0.5);
+    --glass-strong: hsla(0, 0%, 100%, 0.9);
+    --glass-border: hsla(0, 0%, 100%, 0.3);
+    --backdrop-blur: blur(16px);
+    
     /* Professional Shadows */
     --shadow-card: 0 2px 8px hsl(0 0% 0% / 0.08);
     --shadow-card-hover: 0 4px 16px hsl(0 0% 0% / 0.12);

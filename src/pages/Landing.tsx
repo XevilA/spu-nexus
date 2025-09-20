@@ -140,11 +140,11 @@ const Landing = () => {
           </nav>
 
           <div className="flex items-center gap-2">
-            <Link to="/login">
-              <Button variant="ghost" size="sm">เข้าสู่ระบบ</Button>
+            <Link to="/auth">
+              <Button variant="ghost" size="sm" className="hover:bg-white/10 backdrop-blur-sm">เข้าสู่ระบบ</Button>
             </Link>
-            <Link to="/register">
-              <Button className="bg-gradient-primary text-white hover:opacity-90" size="sm">
+            <Link to="/auth">
+              <Button className="bg-gradient-primary text-white hover:opacity-90 backdrop-blur-sm" size="sm">
                 สมัครสมาชิก
               </Button>
             </Link>
