@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 interface AIPopupProps {
   isOpen: boolean;
@@ -49,29 +50,24 @@ const AIPopup = ({ isOpen, onClose }: AIPopupProps) => {
     setConversationHistory(prev => [...prev, newUserMessage]);
     
     try {
-      const response = await fetch('https://jgpvykbrrrboghwvulhy.supabase.co/functions/v1/spu-smart-ai', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpncHZ5a2JycnJib2dod3Z1bGh5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU1Mjk4MDksImV4cCI6MjA2MTEwNTgwOX0.BpPIk6X2ZUn1hBEvFBOtrH0VgG6QfEkehu6K7HXkUtE`
-        },
-        body: JSON.stringify({
+      const { data, error } = await supabase.functions.invoke('spu-smart-ai', {
+        body: {
           type: 'general_question',
           user_id: user?.id || null,
           question: question
-        })
+        }
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to get AI response');
+      if (error) {
+        throw new Error(error.message || 'Failed to get AI response');
       }
 
-      const data = await response.json();
-      
-      if (data.success && data.advice) {
-        const aiResponse = { role: 'ai' as const, content: data.advice };
+      const response = data;
+
+      if (response.success && response.advice) {
+        const aiResponse = { role: 'ai' as const, content: response.advice };
         setConversationHistory(prev => [...prev, aiResponse]);
-        setResponse(data.advice);
+        setResponse(response.advice);
         
         toast({
           title: "ได้รับคำตอบจาก SPU Smart AI แล้ว!",

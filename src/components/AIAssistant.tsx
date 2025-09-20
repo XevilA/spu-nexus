@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 interface AIAssistantProps {
   type: 'job_recommendations' | 'portfolio_improvement';
@@ -31,27 +32,22 @@ const AIAssistant = ({ type, onAdviceReceived }: AIAssistantProps) => {
 
     setLoading(true);
     try {
-      const response = await fetch('https://jgpvykbrrrboghwvulhy.supabase.co/functions/v1/spu-smart-ai', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpncHZ5a2JycnJib2dod3Z1bGh5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU1Mjk4MDksImV4cCI6MjA2MTEwNTgwOX0.BpPIk6X2ZUn1hBEvFBOtrH0VgG6QfEkehu6K7HXkUtE`
-        },
-        body: JSON.stringify({
+      const { data, error } = await supabase.functions.invoke('spu-smart-ai', {
+        body: {
           type,
           user_id: user.id
-        })
+        }
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to get AI advice');
+      if (error) {
+        throw new Error(error.message || 'Failed to get AI advice');
       }
 
-      const data = await response.json();
-      
-      if (data.success && data.advice) {
-        setAdvice(data.advice);
-        onAdviceReceived?.(data.advice);
+      const response = data;
+
+      if (response.success && response.advice) {
+        setAdvice(response.advice);
+        onAdviceReceived?.(response.advice);
         toast({
           title: "ได้รับคำแนะนำจาก AI แล้ว!",
           description: "AI ได้วิเคราะห์ข้อมูลของคุณและให้คำแนะนำแล้ว"

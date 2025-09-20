@@ -11,25 +11,25 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 5%; /* Deep professional black */
+    --background: 0 0% 8%; /* Dark background */
+    --foreground: 0 0% 95%; /* Light text */
 
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 5%;
+    --card: 0 0% 12%; /* Dark card background */
+    --card-foreground: 0 0% 95%; /* Light card text */
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 5%;
+    --popover: 0 0% 12%; /* Dark popover */
+    --popover-foreground: 0 0% 95%; /* Light popover text */
 
     /* Primary Pink Brand Colors - Professional Enterprise Pink Gradient */
     --primary: 340 82% 52%; /* #E91E63 - Primary brand pink */
     --primary-foreground: 0 0% 100%;
     --primary-light: 340 100% 70%; /* #FF4081 - Light accent pink */
 
-    --secondary: 340 25% 96%; /* Ultra light pink background */
-    --secondary-foreground: 0 0% 20%; /* Dark gray for readability */
+    --secondary: 0 0% 15%; /* Dark secondary background */
+    --secondary-foreground: 0 0% 85%; /* Light secondary text */
 
-    --muted: 0 0% 96%; /* Neutral light gray */
-    --muted-foreground: 0 0% 45%; /* Medium gray for subtle text */
+    --muted: 0 0% 18%; /* Dark muted background */
+    --muted-foreground: 0 0% 65%; /* Medium light text */
 
     --accent: 340 82% 52%; /* Same as primary for consistency */
     --accent-foreground: 0 0% 100%;
@@ -37,29 +37,29 @@
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 88%; /* Light gray borders */
-    --input: 0 0% 96%; /* Light input background */
+    --border: 0 0% 20%; /* Dark borders */
+    --input: 0 0% 15%; /* Dark input background */
     --ring: 340 82% 52%; /* Pink focus ring */
 
-    /* Enterprise Color Palette */
+    /* Enterprise Color Palette - Dark Theme */
     --enterprise-pink: 340 82% 52%; /* #E91E63 */
     --enterprise-pink-light: 340 100% 70%; /* #FF4081 */
-    --enterprise-pink-ultra-light: 340 25% 96%;
-    --enterprise-black: 0 0% 5%; /* Professional black */
-    --enterprise-gray-dark: 0 0% 20%; /* Dark gray for text */
-    --enterprise-gray: 0 0% 45%; /* Medium gray */
-    --enterprise-gray-light: 0 0% 88%; /* Light gray for borders */
-    --enterprise-white: 0 0% 100%;
+    --enterprise-pink-ultra-light: 340 25% 20%; /* Dark pink tint */
+    --enterprise-black: 0 0% 95%; /* Light text (inverted) */
+    --enterprise-gray-dark: 0 0% 85%; /* Light gray for text */
+    --enterprise-gray: 0 0% 65%; /* Medium light gray */
+    --enterprise-gray-light: 0 0% 20%; /* Dark gray for borders */
+    --enterprise-white: 0 0% 8%; /* Dark background (inverted) */
     
     /* Success and Status Colors */
     --success: 142 76% 36%;
     --warning: 45 93% 47%;
     --error: 0 84% 60%;
     
-    /* Professional Gradients */
+    /* Professional Gradients - Dark Theme */
     --gradient-primary: linear-gradient(135deg, hsl(340 82% 52%), hsl(340 100% 70%)); /* #E91E63 to #FF4081 */
-    --gradient-card: linear-gradient(180deg, hsl(0 0% 100%), hsl(340 25% 98%));
-    --gradient-footer: linear-gradient(135deg, hsl(0 0% 5%), hsl(0 0% 15%));
+    --gradient-card: linear-gradient(180deg, hsl(0 0% 12%), hsl(0 0% 15%));
+    --gradient-footer: linear-gradient(135deg, hsl(0 0% 5%), hsl(0 0% 10%));
     --gradient-hero: linear-gradient(135deg, hsl(340 82% 52%), hsl(340 100% 70%));
     
     /* Glassmorphism Effects */
@@ -94,59 +94,20 @@
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
-  .dark {
-    --background: 0 0% 8%;
-    --foreground: 0 0% 95%;
-
-    --card: 0 0% 10%;
-    --card-foreground: 0 0% 95%;
-
-    --popover: 0 0% 10%;
-    --popover-foreground: 0 0% 95%;
-
-    --primary: 340 82% 52%; /* Keep brand pink in dark mode */
-    --primary-foreground: 0 0% 100%;
-    --primary-light: 340 100% 70%;
-
-    --secondary: 0 0% 12%; /* Dark background */
-    --secondary-foreground: 0 0% 85%;
-
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 65%;
-
-    --accent: 340 82% 52%;
-    --accent-foreground: 0 0% 100%;
-
-    --destructive: 0 62% 51%;
-    --destructive-foreground: 0 0% 95%;
-
-    --border: 0 0% 20%;
-    --input: 0 0% 15%;
-    --ring: 340 82% 52%;
-
-    /* Dark mode enterprise colors */
-    --enterprise-pink: 340 82% 52%;
-    --enterprise-pink-light: 340 100% 70%;
-    --enterprise-pink-ultra-light: 340 25% 15%;
-    --enterprise-black: 0 0% 95%;
-    --enterprise-gray-dark: 0 0% 85%;
-    --enterprise-gray: 0 0% 65%;
-    --enterprise-gray-light: 0 0% 20%;
-    --enterprise-white: 0 0% 8%;
-    
-    /* Dark mode shadows */
-    --shadow-card: 0 4px 16px hsl(0 0% 0% / 0.3);
-    --shadow-card-hover: 0 8px 32px hsl(0 0% 0% / 0.4);
-    --shadow-enterprise: 0 8px 32px hsl(340 82% 52% / 0.25);
-    --shadow-subtle: 0 2px 8px hsl(0 0% 0% / 0.2);
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+  /* Light mode override - keeping existing structure for compatibility */
+  .light {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 5%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 5%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 5%;
+    --secondary: 340 25% 96%;
+    --secondary-foreground: 0 0% 20%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
+    --border: 0 0% 88%;
+    --input: 0 0% 96%;
   }
 }
 
