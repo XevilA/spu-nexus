@@ -20,10 +20,10 @@
     --popover: 0 0% 12%; /* Dark popover */
     --popover-foreground: 0 0% 95%; /* Light popover text */
 
-    /* Primary Blue Brand Colors - Professional Enterprise Blue Gradient */
-    --primary: 217 91% 60%; /* #3B82F6 - Primary brand blue */
+    /* Primary Dark Pink Brand Colors */
+    --primary: 334 82% 45%; /* Dark Pink - #D91A72 */
     --primary-foreground: 0 0% 100%;
-    --primary-light: 213 94% 68%; /* #60A5FA - Light accent blue */
+    --primary-light: 334 70% 55%; /* Lighter dark pink */
 
     --secondary: 0 0% 15%; /* Dark secondary background */
     --secondary-foreground: 0 0% 85%; /* Light secondary text */
@@ -31,7 +31,7 @@
     --muted: 0 0% 18%; /* Dark muted background */
     --muted-foreground: 0 0% 65%; /* Medium light text */
 
-    --accent: 217 91% 60%; /* Same as primary for consistency */
+    --accent: 334 82% 45%; /* Same as primary for consistency */
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
@@ -39,12 +39,12 @@
 
     --border: 0 0% 20%; /* Dark borders */
     --input: 0 0% 15%; /* Dark input background */
-    --ring: 217 91% 60%; /* Blue focus ring */
+    --ring: 334 82% 45%; /* Dark pink focus ring */
 
-    /* Enterprise Color Palette - Dark Theme */
-    --enterprise-blue: 217 91% 60%; /* #3B82F6 */
-    --enterprise-blue-light: 213 94% 68%; /* #60A5FA */
-    --enterprise-blue-ultra-light: 217 25% 20%; /* Dark blue tint */
+    /* Enterprise Color Palette - Dark Theme with Dark Pink */
+    --enterprise-pink: 334 82% 45%; /* Dark Pink */
+    --enterprise-pink-light: 334 70% 55%; /* Lighter dark pink */
+    --enterprise-pink-ultra-light: 334 25% 20%; /* Dark pink tint */
     --enterprise-black: 0 0% 95%; /* Light text (inverted) */
     --enterprise-gray-dark: 0 0% 85%; /* Light gray for text */
     --enterprise-gray: 0 0% 65%; /* Medium light gray */
@@ -56,11 +56,11 @@
     --warning: 45 93% 47%;
     --error: 0 84% 60%;
     
-    /* Professional Gradients - Dark Theme */
-    --gradient-primary: linear-gradient(135deg, hsl(217 91% 60%), hsl(213 94% 68%)); /* Blue gradient */
+    /* Professional Gradients - Dark Theme with Dark Pink */
+    --gradient-primary: linear-gradient(135deg, hsl(334 82% 45%), hsl(334 70% 55%)); /* Dark pink gradient */
     --gradient-card: linear-gradient(180deg, hsl(0 0% 12%), hsl(0 0% 15%));
     --gradient-footer: linear-gradient(135deg, hsl(0 0% 5%), hsl(0 0% 10%));
-    --gradient-hero: linear-gradient(135deg, hsl(217 91% 60%), hsl(213 94% 68%));
+    --gradient-hero: linear-gradient(135deg, hsl(334 82% 45%), hsl(334 70% 55%));
     
     /* Glassmorphism Effects */
     --glass-light: hsla(0, 0%, 100%, 0.7);
