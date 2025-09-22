@@ -175,14 +175,14 @@ const Landing = () => {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link to="/register">
-                  <Button size="lg" className="bg-gradient-primary text-white hover:opacity-90 w-full sm:w-auto">
+                <Link to="/auth">
+                  <Button size="lg" className="apple-button w-full sm:w-auto">
                     <Users className="h-5 w-5 mr-2" />
                     ฉันเป็นผู้หางาน
                   </Button>
                 </Link>
-                <Link to="/biz/register">
-                  <Button size="lg" variant="outline" className="border-primary/20 hover:bg-primary/5 w-full sm:w-auto">
+                <Link to="/business-auth">
+                  <Button size="lg" variant="outline" className="glass-card hover:bg-primary/5 w-full sm:w-auto">
                     <Building2 className="h-5 w-5 mr-2" />
                     ฉันเป็นผู้จ้างงาน
                   </Button>

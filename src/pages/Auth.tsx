@@ -72,29 +72,29 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-light flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-background via-primary/5 to-background flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Back Button */}
         <Button
           variant="ghost"
           onClick={() => navigate('/')}
-          className="mb-6 text-muted-foreground hover:text-foreground bg-white border border-border shadow-sm"
+          className="mb-6 text-muted-foreground hover:text-foreground glass-card"
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
-          Back to Home
+          กลับสู่หน้าหลัก
         </Button>
 
-        <Card className="shadow-elegant bg-white border border-border">
+        <Card className="card-modern shadow-enterprise">
           <CardHeader className="text-center space-y-4">
-            <div className="mx-auto w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center shadow-glow">
+            <div className="mx-auto w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center shadow-enterprise">
               <Mail className="w-8 h-8 text-white" />
             </div>
             <div>
-              <CardTitle className="text-3xl font-bold text-primary">
-                Welcome
+              <CardTitle className="text-3xl font-bold gradient-text">
+                SPU Smart
               </CardTitle>
               <CardDescription className="text-muted-foreground">
-                Sign in to your account or create a new one
+                เข้าสู่ระบบหรือสร้างบัญชีใหม่
               </CardDescription>
             </div>
           </CardHeader>
@@ -153,10 +153,10 @@ const Auth = () => {
 
                   <Button 
                     type="submit" 
-                    className="w-full bg-gradient-primary hover:opacity-90 text-white shadow-glow" 
+                    className="w-full apple-button" 
                     disabled={loading}
                   >
-                    {loading ? 'Signing In...' : 'Sign In'}
+                    {loading ? 'กำลังเข้าสู่ระบบ...' : 'เข้าสู่ระบบ'}
                   </Button>
                 </form>
               </TabsContent>
@@ -237,10 +237,10 @@ const Auth = () => {
 
                   <Button 
                     type="submit" 
-                    className="w-full bg-gradient-primary hover:opacity-90 text-white shadow-glow" 
+                    className="w-full apple-button" 
                     disabled={loading}
                   >
-                    {loading ? 'Creating Account...' : 'Create Account'}
+                    {loading ? 'กำลังสร้างบัญชี...' : 'สร้างบัญชี'}
                   </Button>
                 </form>
               </TabsContent>
@@ -261,11 +261,11 @@ const Auth = () => {
               <Button
                 variant="outline"
                 onClick={signInWithGoogle}
-                className="w-full mt-4 bg-white border border-input hover:bg-muted"
+                className="w-full mt-4 glass-card hover:bg-primary/5"
                 disabled={loading}
               >
                 <Chrome className="h-4 w-4 mr-2" />
-                Google
+                เข้าสู่ระบบด้วย Google
               </Button>
             </div>
           </CardContent>

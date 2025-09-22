@@ -10,6 +10,7 @@ import Auth from "./pages/Auth";
 import AdminAuth from "./pages/AdminAuth";
 import AdminDashboard from "./pages/AdminDashboard";
 import BusinessRegistration from "./pages/BusinessRegistration";
+import BusinessAuth from "./pages/BusinessAuth";
 import BusinessDashboard from "./pages/BusinessDashboard";
 import EmployerDashboard from "./pages/EmployerDashboard";
 import JobSeekerDashboard from "./pages/JobSeekerDashboard";
@@ -18,7 +19,9 @@ import JobListings from "./pages/JobListings";
 import JobAcceptance from "./pages/JobAcceptance";
 import PortfolioBuilder from "./pages/PortfolioBuilder";
 import News from "./pages/News";
+import ImprovedNews from "./pages/ImprovedNews";
 import Activities from "./pages/Activities";
+import ImprovedActivities from "./pages/ImprovedActivities";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -37,6 +40,7 @@ const App = () => (
                 <Route path="/admin-auth" element={<AdminAuth />} />
                 <Route path="/admin" element={<AdminDashboard />} />
                 <Route path="/business-registration" element={<BusinessRegistration />} />
+                <Route path="/business-auth" element={<BusinessAuth />} />
                 <Route path="/business" element={<BusinessDashboard />} />
                 <Route path="/employer" element={<EmployerDashboard />} />
                 <Route path="/job-seeker" element={<JobSeekerDashboard />} />
@@ -44,8 +48,8 @@ const App = () => (
                 <Route path="/jobs" element={<JobListings />} />
                 <Route path="/job-acceptance" element={<JobAcceptance />} />
                 <Route path="/portfolio" element={<PortfolioBuilder />} />
-                <Route path="/news" element={<News />} />
-                <Route path="/activities" element={<Activities />} />
+                <Route path="/news" element={<ImprovedNews />} />
+                <Route path="/activities" element={<ImprovedActivities />} />
                 <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
