@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Mail, Eye, EyeOff, ArrowLeft, Sparkles } from "lucide-react";
+import { Mail, Eye, EyeOff, ArrowLeft, Briefcase, Shield, Zap } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const Auth = () => {
@@ -35,8 +35,8 @@ const Auth = () => {
     try {
       if (mode === "register" && formData.password !== formData.confirmPassword) {
         toast({
-          title: "Error",
-          description: "Passwords do not match",
+          title: "ข้อผิดพลาด",
+          description: "รหัสผ่านไม่ตรงกัน",
           variant: "destructive",
         });
         return;
@@ -51,11 +51,9 @@ const Auth = () => {
 
       if (!result.error) {
         toast({
-          title: "Success",
+          title: "สำเร็จ",
           description:
-            mode === "login"
-              ? "Signed in successfully"
-              : "Account created successfully. Please check your email to verify your account.",
+            mode === "login" ? "เข้าสู่ระบบสำเร็จ" : "สร้างบัญชีสำเร็จ กรุณาตรวจสอบอีเมลเพื่อยืนยันบัญชีของคุณ",
         });
       }
     } catch (error) {
@@ -73,108 +71,142 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#fafafa] flex items-center justify-center p-4 relative overflow-hidden">
-      {/* Subtle gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-50/30 via-purple-50/20 to-pink-50/30" />
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-pink-50/30 to-rose-50/40 flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Elegant gradient orbs */}
+      <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-gradient-to-br from-pink-300/20 to-rose-300/20 rounded-full blur-3xl animate-pulse" />
+      <div
+        className="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-gradient-to-tr from-rose-300/15 to-pink-300/15 rounded-full blur-3xl animate-pulse"
+        style={{ animationDelay: "1s" }}
+      />
 
-      {/* Animated blur circles */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl animate-pulse" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-400/10 rounded-full blur-3xl animate-pulse delay-700" />
+      {/* Subtle grid pattern */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(236,72,153,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(236,72,153,0.03)_1px,transparent_1px)] bg-[size:64px_64px]" />
 
       <div className="w-full max-w-md relative z-10">
-        {/* Back Button - Minimal Style */}
+        {/* Back Button - Professional Style */}
         <Button
           variant="ghost"
           onClick={() => navigate("/")}
-          className="mb-8 text-gray-600 hover:text-gray-900 hover:bg-white/60 backdrop-blur-sm rounded-full px-4 transition-all duration-300"
+          className="mb-6 text-gray-700 hover:text-pink-600 hover:bg-white/80 backdrop-blur-sm rounded-2xl px-5 py-2.5 transition-all duration-300 shadow-sm hover:shadow-md border border-transparent hover:border-pink-100"
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
-          <span className="text-sm font-medium">กลับ</span>
+          <span className="text-sm font-semibold">กลับหน้าหลัก</span>
         </Button>
 
-        {/* Main Card */}
-        <Card className="border-0 shadow-2xl shadow-gray-200/50 bg-white/80 backdrop-blur-xl rounded-3xl overflow-hidden">
-          <CardHeader className="text-center space-y-6 pt-12 pb-8 px-8">
-            {/* Logo Icon */}
+        {/* Main Card - Sophisticated Design */}
+        <Card className="border-0 shadow-2xl shadow-pink-100/50 bg-white/95 backdrop-blur-2xl rounded-[32px] overflow-hidden">
+          <CardHeader className="text-center space-y-6 pt-10 pb-8 px-8 bg-gradient-to-b from-pink-50/50 to-transparent">
+            {/* Logo - Professional & Clean */}
             <div className="mx-auto relative">
-              <div className="w-20 h-20 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-[24px] flex items-center justify-center shadow-lg shadow-purple-500/30 relative">
-                <Sparkles className="w-10 h-10 text-white" strokeWidth={1.5} />
-                <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent rounded-[24px]" />
+              <div className="w-20 h-20 bg-gradient-to-br from-pink-500 via-rose-500 to-pink-600 rounded-[20px] flex items-center justify-center shadow-xl shadow-pink-500/30 relative group hover:scale-105 transition-transform duration-300">
+                <Briefcase className="w-9 h-9 text-white" strokeWidth={2} />
+                <div className="absolute inset-0 bg-gradient-to-tr from-white/30 to-transparent rounded-[20px]" />
+
+                {/* Pulse effect */}
+                <div
+                  className="absolute inset-0 rounded-[20px] bg-pink-500/20 animate-ping opacity-75"
+                  style={{ animationDuration: "2s" }}
+                />
               </div>
             </div>
 
-            {/* Title */}
-            <div className="space-y-2">
-              <CardTitle className="text-4xl font-semibold tracking-tight bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent">
-                SPU Smart
+            {/* Title - Premium Typography */}
+            <div className="space-y-3">
+              <CardTitle className="text-[2.75rem] font-bold tracking-tight">
+                <span className="bg-gradient-to-r from-pink-600 via-rose-600 to-pink-700 bg-clip-text text-transparent">
+                  SPU Freelance
+                </span>
               </CardTitle>
-              <CardDescription className="text-base text-gray-500 font-light">Welcome back</CardDescription>
+              <CardDescription className="text-base text-gray-600 font-medium">
+                แพลตฟอร์มฟรีแลนซ์มืออาชีพ
+              </CardDescription>
+
+              {/* Feature badges */}
+              <div className="flex items-center justify-center gap-4 pt-2">
+                <div className="flex items-center gap-1.5 text-xs text-gray-500">
+                  <Shield className="w-3.5 h-3.5 text-pink-500" />
+                  <span>ปลอดภัย</span>
+                </div>
+                <div className="w-1 h-1 rounded-full bg-gray-300" />
+                <div className="flex items-center gap-1.5 text-xs text-gray-500">
+                  <Zap className="w-3.5 h-3.5 text-pink-500" />
+                  <span>รวดเร็ว</span>
+                </div>
+                <div className="w-1 h-1 rounded-full bg-gray-300" />
+                <div className="flex items-center gap-1.5 text-xs text-gray-500">
+                  <Briefcase className="w-3.5 h-3.5 text-pink-500" />
+                  <span>มืออาชีพ</span>
+                </div>
+              </div>
             </div>
           </CardHeader>
 
-          <CardContent className="px-8 pb-12">
+          <CardContent className="px-8 pb-10">
             <Tabs defaultValue="login" className="w-full">
-              {/* Minimal Tab Selector */}
-              <TabsList className="grid w-full grid-cols-2 bg-gray-100/80 backdrop-blur-sm p-1 rounded-2xl mb-8">
+              {/* Premium Tab Selector */}
+              <TabsList className="grid w-full grid-cols-2 bg-gradient-to-r from-pink-50 to-rose-50 backdrop-blur-sm p-1.5 rounded-[20px] mb-8 shadow-inner">
                 <TabsTrigger
                   value="login"
-                  className="rounded-xl data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:text-gray-900 text-gray-600 font-medium transition-all duration-300"
+                  className="rounded-[16px] data-[state=active]:bg-white data-[state=active]:shadow-lg data-[state=active]:shadow-pink-100/50 data-[state=active]:text-pink-700 text-gray-600 font-semibold transition-all duration-300 py-3"
                 >
-                  Sign In
+                  เข้าสู่ระบบ
                 </TabsTrigger>
                 <TabsTrigger
                   value="register"
-                  className="rounded-xl data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:text-gray-900 text-gray-600 font-medium transition-all duration-300"
+                  className="rounded-[16px] data-[state=active]:bg-white data-[state=active]:shadow-lg data-[state=active]:shadow-pink-100/50 data-[state=active]:text-pink-700 text-gray-600 font-semibold transition-all duration-300 py-3"
                 >
-                  Sign Up
+                  สมัครสมาชิก
                 </TabsTrigger>
               </TabsList>
 
               {/* Login Form */}
               <TabsContent value="login" className="mt-0">
-                <form onSubmit={(e) => handleSubmit(e, "login")} className="space-y-5">
-                  <div className="space-y-2">
-                    <Label htmlFor="email" className="text-sm font-medium text-gray-700">
-                      Email Address
+                <form onSubmit={(e) => handleSubmit(e, "login")} className="space-y-6">
+                  <div className="space-y-2.5">
+                    <Label htmlFor="email" className="text-sm font-semibold text-gray-800">
+                      อีเมล
                     </Label>
-                    <Input
-                      id="email"
-                      name="email"
-                      type="email"
-                      placeholder="name@example.com"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      required
-                      className="h-12 bg-gray-50/50 border-gray-200 rounded-xl focus:bg-white focus:border-gray-300 focus:ring-4 focus:ring-gray-100 transition-all duration-300 text-base"
-                    />
+                    <div className="relative">
+                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                      <Input
+                        id="email"
+                        name="email"
+                        type="email"
+                        placeholder="your.email@spu.ac.th"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        required
+                        className="h-14 pl-12 bg-gray-50 border-2 border-gray-200 rounded-2xl focus:bg-white focus:border-pink-400 focus:ring-4 focus:ring-pink-100 transition-all duration-300 text-base font-medium placeholder:text-gray-400"
+                      />
+                    </div>
                   </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="password" className="text-sm font-medium text-gray-700">
-                      Password
+                  <div className="space-y-2.5">
+                    <Label htmlFor="password" className="text-sm font-semibold text-gray-800">
+                      รหัสผ่าน
                     </Label>
                     <div className="relative">
                       <Input
                         id="password"
                         name="password"
                         type={showPassword ? "text" : "password"}
-                        placeholder="Enter your password"
+                        placeholder="••••••••"
                         value={formData.password}
                         onChange={handleInputChange}
                         required
-                        className="h-12 bg-gray-50/50 border-gray-200 rounded-xl focus:bg-white focus:border-gray-300 focus:ring-4 focus:ring-gray-100 transition-all duration-300 pr-12 text-base"
+                        className="h-14 bg-gray-50 border-2 border-gray-200 rounded-2xl focus:bg-white focus:border-pink-400 focus:ring-4 focus:ring-pink-100 transition-all duration-300 pr-14 text-base font-medium"
                       />
                       <Button
                         type="button"
                         variant="ghost"
                         size="sm"
-                        className="absolute right-1 top-1/2 -translate-y-1/2 h-10 w-10 rounded-lg hover:bg-gray-100 transition-colors"
+                        className="absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10 rounded-xl hover:bg-pink-50 transition-colors"
                         onClick={() => setShowPassword(!showPassword)}
                       >
                         {showPassword ? (
-                          <EyeOff className="h-4 w-4 text-gray-400" />
+                          <EyeOff className="h-5 w-5 text-gray-500" />
                         ) : (
-                          <Eye className="h-4 w-4 text-gray-400" />
+                          <Eye className="h-5 w-5 text-gray-500" />
                         )}
                       </Button>
                     </div>
@@ -182,97 +214,110 @@ const Auth = () => {
 
                   <Button
                     type="submit"
-                    className="w-full h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium rounded-xl shadow-lg shadow-purple-500/30 hover:shadow-xl hover:shadow-purple-500/40 transition-all duration-300 mt-8"
+                    className="w-full h-14 bg-gradient-to-r from-pink-600 via-rose-600 to-pink-700 hover:from-pink-700 hover:via-rose-700 hover:to-pink-800 text-white font-bold rounded-2xl shadow-xl shadow-pink-500/40 hover:shadow-2xl hover:shadow-pink-500/50 transition-all duration-300 mt-8 text-base hover:scale-[1.02] active:scale-[0.98]"
                     disabled={loading}
                   >
                     {loading ? (
-                      <div className="flex items-center gap-2">
-                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                        Signing in...
+                      <div className="flex items-center gap-3">
+                        <div className="w-5 h-5 border-3 border-white/30 border-t-white rounded-full animate-spin" />
+                        กำลังเข้าสู่ระบบ...
                       </div>
                     ) : (
-                      "Sign In"
+                      "เข้าสู่ระบบ"
                     )}
                   </Button>
+
+                  <div className="text-center">
+                    <button
+                      type="button"
+                      className="text-sm text-pink-600 hover:text-pink-700 font-semibold hover:underline transition-colors"
+                    >
+                      ลืมรหัสผ่าน?
+                    </button>
+                  </div>
                 </form>
               </TabsContent>
 
               {/* Register Form */}
               <TabsContent value="register" className="mt-0">
-                <form onSubmit={(e) => handleSubmit(e, "register")} className="space-y-5">
-                  <div className="space-y-2">
-                    <Label htmlFor="register-email" className="text-sm font-medium text-gray-700">
-                      Email Address
+                <form onSubmit={(e) => handleSubmit(e, "register")} className="space-y-6">
+                  <div className="space-y-2.5">
+                    <Label htmlFor="register-email" className="text-sm font-semibold text-gray-800">
+                      อีเมล
                     </Label>
-                    <Input
-                      id="register-email"
-                      name="email"
-                      type="email"
-                      placeholder="name@example.com"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      required
-                      className="h-12 bg-gray-50/50 border-gray-200 rounded-xl focus:bg-white focus:border-gray-300 focus:ring-4 focus:ring-gray-100 transition-all duration-300 text-base"
-                    />
+                    <div className="relative">
+                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                      <Input
+                        id="register-email"
+                        name="email"
+                        type="email"
+                        placeholder="your.email@spu.ac.th"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        required
+                        className="h-14 pl-12 bg-gray-50 border-2 border-gray-200 rounded-2xl focus:bg-white focus:border-pink-400 focus:ring-4 focus:ring-pink-100 transition-all duration-300 text-base font-medium placeholder:text-gray-400"
+                      />
+                    </div>
                   </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="register-password" className="text-sm font-medium text-gray-700">
-                      Password
+                  <div className="space-y-2.5">
+                    <Label htmlFor="register-password" className="text-sm font-semibold text-gray-800">
+                      รหัสผ่าน
                     </Label>
                     <div className="relative">
                       <Input
                         id="register-password"
                         name="password"
                         type={showPassword ? "text" : "password"}
-                        placeholder="Create a password"
+                        placeholder="สร้างรหัสผ่านที่แข็งแรง"
                         value={formData.password}
                         onChange={handleInputChange}
                         required
-                        className="h-12 bg-gray-50/50 border-gray-200 rounded-xl focus:bg-white focus:border-gray-300 focus:ring-4 focus:ring-gray-100 transition-all duration-300 pr-12 text-base"
+                        className="h-14 bg-gray-50 border-2 border-gray-200 rounded-2xl focus:bg-white focus:border-pink-400 focus:ring-4 focus:ring-pink-100 transition-all duration-300 pr-14 text-base font-medium"
                       />
                       <Button
                         type="button"
                         variant="ghost"
                         size="sm"
-                        className="absolute right-1 top-1/2 -translate-y-1/2 h-10 w-10 rounded-lg hover:bg-gray-100 transition-colors"
+                        className="absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10 rounded-xl hover:bg-pink-50 transition-colors"
                         onClick={() => setShowPassword(!showPassword)}
                       >
                         {showPassword ? (
-                          <EyeOff className="h-4 w-4 text-gray-400" />
+                          <EyeOff className="h-5 w-5 text-gray-500" />
                         ) : (
-                          <Eye className="h-4 w-4 text-gray-400" />
+                          <Eye className="h-5 w-5 text-gray-500" />
                         )}
                       </Button>
                     </div>
+                    <p className="text-xs text-gray-500 mt-1">ใช้อย่างน้อย 8 ตัวอักษร มีตัวพิมพ์ใหญ่และตัวเลข</p>
                   </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="confirm-password" className="text-sm font-medium text-gray-700">
-                      Confirm Password
+                  <div className="space-y-2.5">
+                    <Label htmlFor="confirm-password" className="text-sm font-semibold text-gray-800">
+                      ยืนยันรหัสผ่าน
                     </Label>
                     <div className="relative">
                       <Input
                         id="confirm-password"
                         name="confirmPassword"
                         type={showConfirmPassword ? "text" : "password"}
-                        placeholder="Confirm your password"
+                        placeholder="ยืนยันรหัสผ่านอีกครั้ง"
                         value={formData.confirmPassword}
                         onChange={handleInputChange}
                         required
-                        className="h-12 bg-gray-50/50 border-gray-200 rounded-xl focus:bg-white focus:border-gray-300 focus:ring-4 focus:ring-gray-100 transition-all duration-300 pr-12 text-base"
+                        className="h-14 bg-gray-50 border-2 border-gray-200 rounded-2xl focus:bg-white focus:border-pink-400 focus:ring-4 focus:ring-pink-100 transition-all duration-300 pr-14 text-base font-medium"
                       />
                       <Button
                         type="button"
                         variant="ghost"
                         size="sm"
-                        className="absolute right-1 top-1/2 -translate-y-1/2 h-10 w-10 rounded-lg hover:bg-gray-100 transition-colors"
+                        className="absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10 rounded-xl hover:bg-pink-50 transition-colors"
                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                       >
                         {showConfirmPassword ? (
-                          <EyeOff className="h-4 w-4 text-gray-400" />
+                          <EyeOff className="h-5 w-5 text-gray-500" />
                         ) : (
-                          <Eye className="h-4 w-4 text-gray-400" />
+                          <Eye className="h-5 w-5 text-gray-500" />
                         )}
                       </Button>
                     </div>
@@ -280,42 +325,42 @@ const Auth = () => {
 
                   <Button
                     type="submit"
-                    className="w-full h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium rounded-xl shadow-lg shadow-purple-500/30 hover:shadow-xl hover:shadow-purple-500/40 transition-all duration-300 mt-8"
+                    className="w-full h-14 bg-gradient-to-r from-pink-600 via-rose-600 to-pink-700 hover:from-pink-700 hover:via-rose-700 hover:to-pink-800 text-white font-bold rounded-2xl shadow-xl shadow-pink-500/40 hover:shadow-2xl hover:shadow-pink-500/50 transition-all duration-300 mt-8 text-base hover:scale-[1.02] active:scale-[0.98]"
                     disabled={loading}
                   >
                     {loading ? (
-                      <div className="flex items-center gap-2">
-                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                        Creating account...
+                      <div className="flex items-center gap-3">
+                        <div className="w-5 h-5 border-3 border-white/30 border-t-white rounded-full animate-spin" />
+                        กำลังสร้างบัญชี...
                       </div>
                     ) : (
-                      "Create Account"
+                      "สร้างบัญชี"
                     )}
                   </Button>
                 </form>
               </TabsContent>
             </Tabs>
 
-            {/* Divider */}
+            {/* Divider - Elegant */}
             <div className="my-8">
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
-                  <span className="w-full border-t border-gray-200" />
+                  <span className="w-full border-t-2 border-gray-100" />
                 </div>
-                <div className="relative flex justify-center text-xs">
-                  <span className="bg-white px-4 text-gray-400 font-light tracking-wide">OR</span>
+                <div className="relative flex justify-center text-sm">
+                  <span className="bg-white px-5 text-gray-500 font-semibold tracking-wide">หรือดำเนินการด้วย</span>
                 </div>
               </div>
             </div>
 
-            {/* Google Sign In */}
+            {/* Google Sign In - Premium */}
             <Button
               variant="outline"
               onClick={signInWithGoogle}
-              className="w-full h-12 bg-white hover:bg-gray-50 border border-gray-200 hover:border-gray-300 rounded-xl transition-all duration-300 shadow-sm hover:shadow group"
+              className="w-full h-14 bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-pink-300 rounded-2xl transition-all duration-300 shadow-md hover:shadow-xl hover:shadow-pink-100/50 group font-semibold hover:scale-[1.02] active:scale-[0.98]"
               disabled={loading}
             >
-              <svg className="h-5 w-5 mr-3" viewBox="0 0 24 24">
+              <svg className="h-6 w-6 mr-3" viewBox="0 0 24 24">
                 <path
                   fill="#4285F4"
                   d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -333,15 +378,30 @@ const Auth = () => {
                   d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
                 />
               </svg>
-              <span className="text-gray-700 font-medium">Continue with Google</span>
+              <span className="text-gray-800">เข้าสู่ระบบด้วย Google</span>
             </Button>
+
+            {/* Terms */}
+            <p className="text-center text-xs text-gray-500 mt-6 leading-relaxed">
+              การสมัครใช้งาน คุณยอมรับ{" "}
+              <button className="text-pink-600 hover:text-pink-700 font-semibold hover:underline">
+                เงื่อนไขการใช้งาน
+              </button>{" "}
+              และ{" "}
+              <button className="text-pink-600 hover:text-pink-700 font-semibold hover:underline">
+                นโยบายความเป็นส่วนตัว
+              </button>
+            </p>
           </CardContent>
         </Card>
 
-        {/* Footer Text */}
-        <p className="text-center text-sm text-gray-400 mt-8 font-light">
-          Secure authentication powered by <span className="font-medium text-gray-500">SPU Smart</span>
-        </p>
+        {/* Footer Text - Premium */}
+        <div className="text-center mt-8 space-y-2">
+          <p className="text-sm text-gray-600 font-medium">🔒 ระบบรักษาความปลอดภัยระดับสูง</p>
+          <p className="text-xs text-gray-500">
+            Powered by <span className="font-bold text-pink-600">SPU Freelance Platform</span>
+          </p>
+        </div>
       </div>
     </div>
   );
