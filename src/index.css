@@ -2,78 +2,72 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Professional Enterprise Design System
- * Brand: SPU Smart Job Platform
- * Theme: Pink Gradient (#E91E63-#FF4081), White, Professional Black/Gray
- * Accessibility: WCAG AA compliant colors and contrast
- * All colors MUST be HSL.
+/* SPU Smart Job Platform - Strong Pink & White Design System
+ * Theme: Deep Pink (#E91E63), White (#FFFFFF), No Transparency
+ * All colors MUST be HSL format
  */
 
 @layer base {
   :root {
-    --background: 0 0% 100%; /* White background */
-    --foreground: 0 0% 5%; /* Dark text */
+    /* Base Colors - Solid White Background */
+    --background: 0 0% 100%; /* Pure white */
+    --foreground: 0 0% 10%; /* Dark gray text */
 
-    --card: 0 0% 100%; /* White card background */
-    --card-foreground: 0 0% 5%; /* Dark card text */
+    /* Card Colors - Solid White */
+    --card: 0 0% 100%; /* Pure white cards */
+    --card-foreground: 0 0% 10%;
 
-    --popover: 0 0% 100%; /* White popover */
-    --popover-foreground: 0 0% 5%; /* Dark popover text */
+    /* Popover - Solid White */
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 10%;
 
-    /* Primary Pink Brand Colors - Light Theme */
-    --primary: 340 82% 52%; /* Pink - #E91E63 */
-    --primary-foreground: 0 0% 100%;
+    /* Primary Pink - Strong & Solid */
+    --primary: 340 82% 52%; /* Deep Pink #E91E63 */
+    --primary-foreground: 0 0% 100%; /* White text on pink */
+    --primary-hover: 340 82% 45%; /* Darker pink for hover */
     --primary-light: 340 100% 70%; /* Light pink #FF4081 */
 
-    --secondary: 340 25% 96%; /* Very light pink background */
-    --secondary-foreground: 0 0% 20%; /* Dark secondary text */
+    /* Secondary - Light Pink Background (No transparency) */
+    --secondary: 340 25% 96%; /* Very light pink */
+    --secondary-foreground: 0 0% 15%; /* Dark text */
 
-    --muted: 0 0% 96%; /* Light gray background */
-    --muted-foreground: 0 0% 45%; /* Medium gray text */
+    /* Muted - Light Gray (Solid) */
+    --muted: 0 0% 96%; /* Light gray */
+    --muted-foreground: 0 0% 40%; /* Medium gray text */
 
-    --accent: 340 82% 52%; /* Same as primary for consistency */
+    /* Accent - Same as Primary */
+    --accent: 340 82% 52%; /* Deep pink */
     --accent-foreground: 0 0% 100%;
 
+    /* Destructive - Red */
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 88%; /* Light gray borders */
-    --input: 0 0% 98%; /* Very light input background */
+    /* Borders & Inputs - Solid Colors */
+    --border: 0 0% 85%; /* Light gray border */
+    --input: 0 0% 98%; /* Very light gray input */
     --ring: 340 82% 52%; /* Pink focus ring */
 
-    /* Enterprise Color Palette - Light Theme with Pink */
-    --enterprise-pink: 340 82% 52%; /* Pink */
-    --enterprise-pink-light: 340 100% 70%; /* Light pink */
-    --enterprise-pink-ultra-light: 340 25% 96%; /* Ultra light pink */
-    --enterprise-black: 0 0% 5%; /* Dark text */
-    --enterprise-gray-dark: 0 0% 20%; /* Dark gray for text */
-    --enterprise-gray: 0 0% 45%; /* Medium gray */
-    --enterprise-gray-light: 0 0% 88%; /* Light gray for borders */
-    --enterprise-white: 0 0% 100%; /* White */
-    
-    /* Success and Status Colors */
-    --success: 142 76% 36%;
-    --warning: 45 93% 47%;
-    --error: 0 84% 60%;
-    
-    /* Professional Gradients - Light Theme with Pink */
-    --gradient-primary: linear-gradient(135deg, hsl(340 82% 52%), hsl(340 100% 70%)); /* Pink gradient */
-    --gradient-card: linear-gradient(180deg, hsl(0 0% 100%), hsl(340 25% 98%)); /* White to light pink */
-    --gradient-footer: linear-gradient(135deg, hsl(340 82% 52%), hsl(340 70% 45%)); /* Pink gradient */
-    --gradient-hero: linear-gradient(135deg, hsl(340 82% 52%), hsl(340 100% 70%)); /* Pink hero gradient */
-    
-    /* Glassmorphism Effects */
-    --glass-light: hsla(0, 0%, 100%, 0.7);
-    --glass-medium: hsla(0, 0%, 100%, 0.5);
-    --glass-strong: hsla(0, 0%, 100%, 0.9);
-    --glass-border: hsla(0, 0%, 100%, 0.3);
-    --backdrop-blur: blur(16px);
-    
-    /* Professional Shadows */
-    --shadow-card: 0 2px 8px hsl(0 0% 0% / 0.08);
-    --shadow-card-hover: 0 4px 16px hsl(0 0% 0% / 0.12);
-    --shadow-enterprise: 0 8px 32px hsl(340 82% 52% / 0.15);
-    --shadow-subtle: 0 1px 3px hsl(0 0% 0% / 0.1);
+    /* Status Colors - Solid, No Transparency */
+    --success: 142 71% 45%; /* Green */
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 50%; /* Orange */
+    --warning-foreground: 0 0% 100%;
+    --info: 199 89% 48%; /* Blue */
+    --info-foreground: 0 0% 100%;
+
+    /* Solid Gradients - No Transparency */
+    --gradient-primary: linear-gradient(135deg, hsl(340 82% 52%), hsl(340 100% 70%));
+    --gradient-hero: linear-gradient(135deg, hsl(340 82% 52%), hsl(340 100% 70%));
+    --gradient-card: linear-gradient(180deg, hsl(0 0% 100%), hsl(340 25% 98%));
+    --gradient-footer: linear-gradient(135deg, hsl(340 82% 52%), hsl(340 70% 45%));
+
+    /* Solid Shadows - No Transparency in Colors */
+    --shadow-sm: 0 1px 2px hsl(0 0% 0% / 0.05);
+    --shadow-md: 0 4px 6px hsl(0 0% 0% / 0.1);
+    --shadow-lg: 0 10px 15px hsl(0 0% 0% / 0.15);
+    --shadow-xl: 0 20px 25px hsl(0 0% 0% / 0.2);
+    --shadow-pink: 0 8px 24px hsl(340 82% 52% / 0.25);
 
     --radius: 0.5rem;
 
@@ -94,20 +88,20 @@
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
-  /* Dark mode override */
   .dark {
-    --background: 0 0% 8%;
+    --background: 340 15% 10%; /* Dark with pink tint */
     --foreground: 0 0% 95%;
-    --card: 0 0% 12%;
+    --card: 340 15% 12%;
     --card-foreground: 0 0% 95%;
-    --popover: 0 0% 12%;
+    --popover: 340 15% 12%;
     --popover-foreground: 0 0% 95%;
-    --secondary: 0 0% 15%;
-    --secondary-foreground: 0 0% 85%;
-    --muted: 0 0% 18%;
+    --primary: 340 82% 60%; /* Brighter pink for dark mode */
+    --secondary: 340 25% 20%;
+    --secondary-foreground: 0 0% 90%;
+    --muted: 340 15% 18%;
     --muted-foreground: 0 0% 65%;
-    --border: 0 0% 20%;
-    --input: 0 0% 15%;
+    --border: 340 15% 25%;
+    --input: 340 15% 15%;
   }
 }
 
@@ -123,55 +117,54 @@
 }
 
 @layer components {
-  .glass-card {
-    background: var(--glass-light);
-    backdrop-filter: var(--backdrop-blur);
-    border: 1px solid var(--glass-border);
-    box-shadow: var(--shadow-card);
+  /* Solid Card Styles - No Transparency */
+  .card-solid {
+    @apply bg-card border border-border rounded-lg shadow-md transition-all duration-300;
   }
   
+  .card-solid:hover {
+    @apply shadow-lg -translate-y-1;
+  }
+
+  /* Pink Gradient Text */
   .gradient-text {
     background: var(--gradient-primary);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
   }
-  
-  .hover-lift {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  
-  .hover-lift:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-enterprise);
-  }
-  
-  .apple-button {
+
+  /* Solid Button with Gradient */
+  .btn-gradient {
     background: var(--gradient-primary);
-    border: none;
-    border-radius: var(--radius);
-    color: white;
-    font-weight: 600;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: var(--shadow-subtle);
+    @apply text-white font-semibold rounded-lg px-6 py-3 transition-all duration-300;
   }
-  
-  .apple-button:hover {
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-enterprise);
-    opacity: 0.9;
+
+  .btn-gradient:hover {
+    @apply shadow-pink -translate-y-0.5;
+    filter: brightness(1.1);
   }
-  
-  .card-modern {
+
+  /* Modern Card with Gradient */
+  .card-gradient {
     background: var(--gradient-card);
-    border: 1px solid var(--border);
-    border-radius: calc(var(--radius) * 1.5);
-    box-shadow: var(--shadow-card);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    @apply border border-border rounded-xl shadow-md transition-all duration-300;
   }
-  
-  .card-modern:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-card-hover);
+
+  .card-gradient:hover {
+    @apply shadow-lg -translate-y-1;
+  }
+
+  /* Shadow Utilities */
+  .shadow-card {
+    box-shadow: var(--shadow-md);
+  }
+
+  .shadow-hover {
+    box-shadow: var(--shadow-lg);
+  }
+
+  .shadow-pink {
+    box-shadow: var(--shadow-pink);
   }
 }
