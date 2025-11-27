@@ -8,9 +8,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Mail, Eye, EyeOff, ArrowLeft, Briefcase, Shield, Zap } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const Auth = () => {
-  const { signInWithEmail, signUpWithEmail, signInWithGoogle, user } = useAuth();
+  const { signInWithEmail, signUpWithEmail, signInWithGoogle, user, profile } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -23,10 +24,26 @@ const Auth = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (user) {
-      navigate("/");
+    if (user && profile) {
+      // Redirect based on user role
+      switch (profile.role) {
+        case "STUDENT":
+          navigate("/student");
+          break;
+        case "COMPANY_HR":
+          navigate("/business");
+          break;
+        case "ADMIN":
+          navigate("/admin");
+          break;
+        case "FACULTY_APPROVER":
+          navigate("/admin");
+          break;
+        default:
+          navigate("/");
+      }
     }
-  }, [user, navigate]);
+  }, [user, profile, navigate]);
 
   const handleSubmit = async (e: React.FormEvent, mode: "login" | "register") => {
     e.preventDefault();
@@ -39,6 +56,7 @@ const Auth = () => {
           description: "รหัสผ่านไม่ตรงกัน",
           variant: "destructive",
         });
+        setLoading(false);
         return;
       }
 
@@ -47,6 +65,22 @@ const Auth = () => {
         result = await signInWithEmail(formData.email, formData.password);
       } else {
         result = await signUpWithEmail(formData.email, formData.password);
+
+        // Create profile for new student user
+        if (!result.error && result.data?.user) {
+          const { error: profileError } = await supabase
+            .from("profiles")
+            .insert({
+              id: result.data.user.id,
+              email: formData.email,
+              role: "STUDENT",
+              verified_student: false,
+            });
+
+          if (profileError) {
+            console.error("Profile creation error:", profileError);
+          }
+        }
       }
 
       if (!result.error) {

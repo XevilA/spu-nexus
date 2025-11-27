@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -9,12 +10,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { 
-  User, 
-  GraduationCap, 
-  Code, 
-  FolderOpen, 
-  Award, 
+import {
+  User,
+  GraduationCap,
+  Code,
+  FolderOpen,
+  Award,
   FileText,
   Plus,
   Save,
@@ -31,7 +32,8 @@ import {
   Globe,
   Link,
   Star,
-  Clock
+  Clock,
+  ArrowLeft
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
@@ -42,6 +44,7 @@ import AIAssistant from "@/components/AIAssistant";
 const PortfolioBuilder = () => {
   const { user, profile } = useAuth();
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [portfolio, setPortfolio] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -437,17 +440,45 @@ const PortfolioBuilder = () => {
     }));
   };
 
+  const getStatusBadge = () => {
+    const status = portfolio?.status || 'DRAFT';
+    const statusConfig = {
+      'DRAFT': { label: 'แบบร่าง', icon: Edit, className: 'bg-gray-500 text-white' },
+      'SUBMITTED': { label: 'รอการอนุมัติ', icon: AlertCircle, className: 'bg-yellow-500 text-white' },
+      'APPROVED': { label: 'อนุมัติแล้ว', icon: CheckCircle, className: 'bg-green-500 text-white' },
+      'CHANGES_REQUESTED': { label: 'ต้องแก้ไข', icon: AlertCircle, className: 'bg-orange-500 text-white' },
+      'REJECTED': { label: 'ปฏิเสธ', icon: AlertCircle, className: 'bg-red-500 text-white' }
+    };
+
+    const config = statusConfig[status] || statusConfig['DRAFT'];
+    const Icon = config.icon;
+
+    return (
+      <Badge className={`${config.className} shadow-sm`}>
+        <Icon className="w-4 h-4 mr-1" />
+        {config.label}
+      </Badge>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="bg-gradient-primary text-white px-6 py-4 shadow-glow">
         <div className="container mx-auto flex justify-between items-center">
-          <div className="text-2xl font-bold">SPU U2B</div>
           <div className="flex items-center gap-4">
-            <Badge className="bg-accent text-white shadow-sm">
-              <AlertCircle className="w-4 h-4 mr-1" />
-              รอการอนุมัติ
-            </Badge>
+            <Button
+              variant="ghost"
+              onClick={() => navigate("/student")}
+              className="text-white hover:bg-white/20 rounded-xl"
+            >
+              <ArrowLeft className="h-5 w-5 mr-2" />
+              กลับ
+            </Button>
+            <div className="text-2xl font-bold">SPU U2B - e-Portfolio</div>
+          </div>
+          <div className="flex items-center gap-4">
+            {getStatusBadge()}
             <div className="text-sm text-primary-foreground">
               ความสมบูรณ์: {completionPercentage}%
             </div>
