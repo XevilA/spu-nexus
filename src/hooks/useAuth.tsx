@@ -114,31 +114,31 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signUpWithEmail = async (email: string, password: string) => {
     try {
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
           emailRedirectTo: `${window.location.origin}/`
         }
       });
-      
+
       if (error) {
         toast({
           title: "Authentication Error",
           description: error.message,
           variant: "destructive"
         });
-        return { error };
+        return { error, data: null };
       }
-      
-      return { error: null };
+
+      return { error: null, data };
     } catch (error) {
       toast({
-        title: "Authentication Error", 
+        title: "Authentication Error",
         description: "Failed to sign up",
         variant: "destructive"
       });
-      return { error };
+      return { error, data: null };
     }
   };
 

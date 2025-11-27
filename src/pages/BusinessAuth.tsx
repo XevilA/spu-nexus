@@ -26,7 +26,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 
 const BusinessAuth = () => {
-  const { signInWithEmail, signUpWithEmail, user } = useAuth();
+  const { signInWithEmail, signUpWithEmail, user, profile } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -47,10 +47,26 @@ const BusinessAuth = () => {
   });
 
   useEffect(() => {
-    if (user) {
-      navigate("/business-dashboard");
+    if (user && profile) {
+      // Redirect based on user role
+      switch (profile.role) {
+        case "STUDENT":
+          navigate("/student");
+          break;
+        case "COMPANY_HR":
+          navigate("/business");
+          break;
+        case "ADMIN":
+          navigate("/admin");
+          break;
+        case "FACULTY_APPROVER":
+          navigate("/admin");
+          break;
+        default:
+          navigate("/");
+      }
     }
-  }, [user, navigate]);
+  }, [user, profile, navigate]);
 
   const handleSubmit = async (e: React.FormEvent, mode: "login" | "register") => {
     e.preventDefault();
@@ -63,6 +79,7 @@ const BusinessAuth = () => {
           description: "รหัสผ่านไม่ตรงกัน",
           variant: "destructive",
         });
+        setLoading(false);
         return;
       }
 
@@ -72,18 +89,43 @@ const BusinessAuth = () => {
       } else {
         result = await signUpWithEmail(formData.email, formData.password);
 
-        if (!result.error) {
-          const { error: businessError } = await supabase.from("companies").insert({
+        if (!result.error && result.data?.user) {
+          // Create profile for business user
+          const { error: profileError } = await supabase
+            .from("profiles")
+            .insert({
+              id: result.data.user.id,
+              email: formData.email,
+              role: "COMPANY_HR",
+              display_name: formData.contactPerson,
+            });
+
+          if (profileError) {
+            console.error("Profile creation error:", profileError);
+            toast({
+              title: "ข้อผิดพลาด",
+              description: "ไม่สามารถสร้างโปรไฟล์ได้",
+              variant: "destructive",
+            });
+            setLoading(false);
+            return;
+          }
+
+          // Create company
+          const { error: companyError } = await supabase.from("companies").insert({
             name: formData.companyName,
+            hr_owner_uid: result.data.user.id,
             domain: formData.website,
-            description: formData.description,
-            address: formData.address,
-            phone: formData.contactPhone,
             verified: false,
           });
 
-          if (businessError) {
-            console.error("Business creation error:", businessError);
+          if (companyError) {
+            console.error("Company creation error:", companyError);
+            toast({
+              title: "ข้อผิดพลาด",
+              description: "ไม่สามารถสร้างข้อมูลบริษัทได้",
+              variant: "destructive",
+            });
           }
         }
       }
