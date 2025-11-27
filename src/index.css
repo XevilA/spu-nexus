@@ -10,16 +10,16 @@
 @layer base {
   :root {
     /* Base Colors - Solid White Background */
-    --background: 0 0% 100%; /* Pure white */
-    --foreground: 0 0% 10%; /* Dark gray text */
+    --background: 0 0% 100%; /* Pure white #FFFFFF */
+    --foreground: 220 60% 20%; /* Dark Blue #1E3A5F for text */
 
     /* Card Colors - Solid White */
     --card: 0 0% 100%; /* Pure white cards */
-    --card-foreground: 0 0% 10%;
+    --card-foreground: 220 60% 20%; /* Dark Blue text */
 
     /* Popover - Solid White */
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 10%;
+    --popover-foreground: 220 60% 20%;
 
     /* Primary Pink - Strong & Solid */
     --primary: 340 82% 52%; /* Deep Pink #E91E63 */
@@ -27,15 +27,15 @@
     --primary-hover: 340 82% 45%; /* Darker pink for hover */
     --primary-light: 340 100% 70%; /* Light pink #FF4081 */
 
-    /* Secondary - Light Pink Background (No transparency) */
-    --secondary: 340 25% 96%; /* Very light pink */
-    --secondary-foreground: 0 0% 15%; /* Dark text */
+    /* Secondary - Dark Blue */
+    --secondary: 220 60% 25%; /* Dark Blue #1E3A8A */
+    --secondary-foreground: 0 0% 100%; /* White text */
 
-    /* Muted - Light Gray (Solid) */
-    --muted: 0 0% 96%; /* Light gray */
-    --muted-foreground: 0 0% 40%; /* Medium gray text */
+    /* Muted - Light background (Solid) */
+    --muted: 220 20% 96%; /* Very light blue-gray */
+    --muted-foreground: 220 40% 30%; /* Dark blue-gray text */
 
-    /* Accent - Same as Primary */
+    /* Accent - Pink */
     --accent: 340 82% 52%; /* Deep pink */
     --accent-foreground: 0 0% 100%;
 
@@ -44,48 +44,49 @@
     --destructive-foreground: 0 0% 100%;
 
     /* Borders & Inputs - Solid Colors */
-    --border: 0 0% 85%; /* Light gray border */
+    --border: 220 20% 90%; /* Light blue-gray border */
     --input: 0 0% 98%; /* Very light gray input */
     --ring: 340 82% 52%; /* Pink focus ring */
 
-    /* Status Colors - Solid, No Transparency */
+    /* Status Colors - Solid */
     --success: 142 71% 45%; /* Green */
     --success-foreground: 0 0% 100%;
     --warning: 38 92% 50%; /* Orange */
     --warning-foreground: 0 0% 100%;
-    --info: 199 89% 48%; /* Blue */
+    --info: 220 60% 50%; /* Blue */
     --info-foreground: 0 0% 100%;
 
-    /* Solid Gradients - No Transparency */
+    /* Solid Gradients - Pink to Lighter Pink */
     --gradient-primary: linear-gradient(135deg, hsl(340 82% 52%), hsl(340 100% 70%));
-    --gradient-hero: linear-gradient(135deg, hsl(340 82% 52%), hsl(340 100% 70%));
-    --gradient-card: linear-gradient(180deg, hsl(0 0% 100%), hsl(340 25% 98%));
-    --gradient-footer: linear-gradient(135deg, hsl(340 82% 52%), hsl(340 70% 45%));
+    --gradient-hero: linear-gradient(135deg, hsl(220 60% 20%), hsl(220 60% 35%));
+    --gradient-card: linear-gradient(180deg, hsl(0 0% 100%), hsl(220 20% 98%));
+    --gradient-footer: linear-gradient(135deg, hsl(220 60% 20%), hsl(220 60% 30%));
 
-    /* Solid Shadows - No Transparency in Colors */
-    --shadow-sm: 0 1px 2px hsl(0 0% 0% / 0.05);
-    --shadow-md: 0 4px 6px hsl(0 0% 0% / 0.1);
-    --shadow-lg: 0 10px 15px hsl(0 0% 0% / 0.15);
-    --shadow-xl: 0 20px 25px hsl(0 0% 0% / 0.2);
-    --shadow-pink: 0 8px 24px hsl(340 82% 52% / 0.25);
+    /* Solid Shadows */
+    --shadow-sm: 0 1px 2px hsl(220 60% 20% / 0.05);
+    --shadow-md: 0 4px 6px hsl(220 60% 20% / 0.1);
+    --shadow-lg: 0 10px 15px hsl(220 60% 20% / 0.15);
+    --shadow-xl: 0 20px 25px hsl(220 60% 20% / 0.2);
+    --shadow-pink: 0 8px 24px hsl(340 82% 52% / 0.3);
+    --shadow-glow: 0 0 40px hsl(340 82% 52% / 0.4);
 
     --radius: 0.5rem;
 
-    --sidebar-background: 0 0% 98%;
+    --sidebar-background: 0 0% 100%;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-foreground: 220 60% 20%;
 
-    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary: 340 82% 52%;
 
-    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-primary-foreground: 0 0% 100%;
 
-    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent: 220 20% 96%;
 
-    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-accent-foreground: 220 60% 20%;
 
-    --sidebar-border: 220 13% 91%;
+    --sidebar-border: 220 20% 90%;
 
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-ring: 340 82% 52%;
   }
 
   .dark {
