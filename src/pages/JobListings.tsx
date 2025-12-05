@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -10,88 +9,20 @@ import {
   Building,
   DollarSign,
   Search,
-  Filter,
   Briefcase,
-  TrendingUp,
-  Star,
   CheckCircle2,
   ArrowRight,
-  Sparkles,
+  Menu,
+  X,
+  LogIn,
+  UserPlus,
+  Users,
+  GraduationCap,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "@/components/ui/use-toast";
 import { useNavigate } from "react-router-dom";
-
-// Navbar Component
-const Navbar = () => {
-  const navigate = useNavigate();
-  const { user, signOut } = useAuth();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const handleSignOut = async () => {
-    await signOut();
-    navigate("/");
-  };
-
-  return (
-    <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-2xl border-b-2 border-pink-100 shadow-lg shadow-pink-100/50">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="flex items-center justify-between h-20">
-          {/* Logo */}
-          <div className="flex items-center gap-3 cursor-pointer group" onClick={() => navigate("/")}>
-            <div className="w-12 h-12 bg-gradient-to-br from-pink-500 via-rose-500 to-pink-600 rounded-[16px] flex items-center justify-center shadow-lg shadow-pink-500/30 group-hover:scale-110 transition-transform duration-300">
-              <Briefcase className="w-6 h-6 text-white" strokeWidth={2.5} />
-            </div>
-            <span className="text-2xl font-bold bg-gradient-to-r from-pink-600 via-rose-600 to-pink-700 bg-clip-text text-transparent">
-              SPU Freelance
-            </span>
-          </div>
-
-          {/* Desktop Actions */}
-          <div className="hidden md:flex items-center gap-3">
-            {user ? (
-              <>
-                <Button
-                  variant="ghost"
-                  className="flex items-center gap-3 text-gray-700 hover:text-pink-600 hover:bg-pink-50 px-4 py-2.5 rounded-xl transition-all duration-300 font-semibold"
-                >
-                  <div className="w-9 h-9 bg-gradient-to-br from-pink-500 to-rose-600 rounded-xl flex items-center justify-center text-white font-bold shadow-md shadow-pink-500/30">
-                    {user.email?.charAt(0).toUpperCase()}
-                  </div>
-                  <span>{user.email?.split("@")[0]}</span>
-                </Button>
-                <Button
-                  variant="ghost"
-                  onClick={handleSignOut}
-                  className="text-pink-600 hover:text-pink-700 hover:bg-pink-50 font-semibold px-5 py-2.5 rounded-xl transition-all duration-300"
-                >
-                  ออกจากระบบ
-                </Button>
-              </>
-            ) : (
-              <>
-                <Button
-                  variant="ghost"
-                  onClick={() => navigate("/auth")}
-                  className="text-gray-700 hover:text-pink-600 hover:bg-pink-50 font-semibold px-5 py-2.5 rounded-xl transition-all duration-300"
-                >
-                  เข้าสู่ระบบ
-                </Button>
-                <Button
-                  onClick={() => navigate("/auth")}
-                  className="bg-gradient-to-r from-pink-600 via-rose-600 to-pink-700 hover:from-pink-700 hover:via-rose-700 hover:to-pink-800 text-white font-bold px-6 py-2.5 rounded-xl shadow-lg shadow-pink-500/40 hover:shadow-xl hover:shadow-pink-500/50 transition-all duration-300 hover:scale-105"
-                >
-                  สมัครสมาชิก
-                </Button>
-              </>
-            )}
-          </div>
-        </div>
-      </div>
-    </nav>
-  );
-};
 
 const JobListings = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -99,26 +30,28 @@ const JobListings = () => {
   const [selectedLocation, setSelectedLocation] = useState("all");
   const [jobs, setJobs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const { user } = useAuth();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [stats, setStats] = useState({ jobs: 0, companies: 0, students: 0 });
+  const { user, signOut } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
     fetchJobs();
+    fetchStats();
   }, []);
 
   const fetchJobs = async () => {
     try {
       const { data, error } = await supabase
         .from("jobs")
-        .select(
-          `
-          *,
-          companies (
-            name,
-            verified
-          )
-        `,
-        )
+        .select(`*, companies (name, verified)`)
         .eq("status", "OPEN")
         .order("created_at", { ascending: false });
 
@@ -133,6 +66,23 @@ const JobListings = () => {
       });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchStats = async () => {
+    try {
+      const [jobsCount, companiesCount, studentsCount] = await Promise.all([
+        supabase.from("jobs").select("id", { count: "exact", head: true }),
+        supabase.from("companies").select("id", { count: "exact", head: true }),
+        supabase.from("profiles").select("id", { count: "exact", head: true }).eq("role", "STUDENT")
+      ]);
+      setStats({
+        jobs: jobsCount.count || 0,
+        companies: companiesCount.count || 0,
+        students: studentsCount.count || 0
+      });
+    } catch (error) {
+      console.error("Error fetching stats:", error);
     }
   };
 
@@ -174,306 +124,304 @@ const JobListings = () => {
       job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       job.companies?.name?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesType = selectedType === "all" || job.job_type.toLowerCase().includes(selectedType.toLowerCase());
-    const matchesLocation =
-      selectedLocation === "all" || job.location?.toLowerCase().includes(selectedLocation.toLowerCase());
-
+    const matchesLocation = selectedLocation === "all" || job.location?.toLowerCase().includes(selectedLocation.toLowerCase());
     return matchesSearch && matchesType && matchesLocation;
   });
-
-  const getJobTypeColor = (type: string) => {
-    switch (type) {
-      case "INTERNSHIP":
-        return "bg-gradient-to-r from-pink-500 to-rose-500";
-      case "FREELANCE":
-        return "bg-gradient-to-r from-purple-500 to-pink-500";
-      case "PARTTIME":
-        return "bg-gradient-to-r from-rose-500 to-pink-600";
-      case "FULLTIME":
-        return "bg-gradient-to-r from-pink-600 to-rose-600";
-      case "COOP":
-        return "bg-gradient-to-r from-pink-400 to-rose-400";
-      default:
-        return "bg-gradient-to-r from-gray-500 to-gray-600";
-    }
-  };
 
   const getJobTypeLabel = (type: string) => {
     const labels: Record<string, string> = {
       INTERNSHIP: "ฝึกงาน",
       FREELANCE: "ฟรีแลนซ์",
-      PARTTIME: "งานชั่วคราว",
-      FULLTIME: "งานเต็มเวลา",
+      PARTTIME: "Part-time",
+      FULLTIME: "Full-time",
       COOP: "สหกิจ",
     };
     return labels[type] || type;
   };
 
+  const handleSignOut = async () => {
+    await signOut();
+    navigate("/");
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-pink-50/30 to-rose-50/40">
-      <Navbar />
-
-      {/* Hero Header */}
-      <div className="relative bg-white border-b-2 border-gray-100 overflow-hidden">
-        {/* Gradient orbs */}
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-gradient-to-br from-pink-300/20 to-rose-300/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-1/4 w-80 h-80 bg-gradient-to-tr from-rose-300/15 to-pink-300/15 rounded-full blur-3xl" />
-
-        <div className="container mx-auto px-6 py-16 relative z-10">
-          <div className="text-center max-w-4xl mx-auto animate-fade-in">
-            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 text-white px-4 py-2 rounded-full mb-6 shadow-lg shadow-pink-500/30">
-              <TrendingUp className="w-4 h-4" />
-              <span className="text-sm font-bold">{jobs.length}+ งานใหม่</span>
+    <div className="min-h-screen bg-[#1a1a1a]">
+      {/* Navigation */}
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled ? 'bg-[#1a1a1a]/95 backdrop-blur-md shadow-lg border-b border-white/10' : 'bg-[#1a1a1a]/80 backdrop-blur-sm'
+      }`}>
+        <div className="container mx-auto px-6">
+          <div className="flex items-center justify-between h-20">
+            <div className="flex items-center gap-4 cursor-pointer" onClick={() => navigate("/")}>
+              <span className="text-2xl font-black text-white">SPU</span>
+              <span className="text-2xl font-black text-primary">Freelance</span>
             </div>
 
-            <h1 className="text-5xl lg:text-6xl font-bold mb-6">
-              <span className="bg-gradient-to-r from-pink-600 via-rose-600 to-pink-700 bg-clip-text text-transparent">
-                ค้นหางานที่ใช่
-              </span>
+            <div className="hidden md:flex items-center gap-6">
+              <button onClick={() => navigate('/jobs')} className="text-primary font-medium">หางาน</button>
+              <button onClick={() => navigate('/auth')} className="text-white/80 hover:text-white font-medium">นักศึกษา</button>
+              {user ? (
+                <>
+                  <span className="text-white/60">{user.email?.split("@")[0]}</span>
+                  <Button variant="ghost" onClick={handleSignOut} className="text-white/80 hover:text-white">
+                    ออกจากระบบ
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button variant="ghost" onClick={() => navigate("/auth")} className="text-white/80 hover:text-white">
+                    <LogIn className="w-4 h-4 mr-2" />
+                    เข้าสู่ระบบ
+                  </Button>
+                  <Button onClick={() => navigate("/auth")} className="bg-primary hover:bg-primary/90 text-white rounded-full px-6">
+                    <UserPlus className="w-4 h-4 mr-2" />
+                    สมัครสมาชิก
+                  </Button>
+                </>
+              )}
+            </div>
+
+            <Button variant="ghost" size="icon" className="md:hidden text-white" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </Button>
+          </div>
+        </div>
+
+        {mobileMenuOpen && (
+          <div className="md:hidden bg-[#1a1a1a] border-t border-white/10 p-4 space-y-3">
+            <button onClick={() => { navigate('/jobs'); setMobileMenuOpen(false); }} className="flex items-center gap-3 w-full p-3 rounded-xl text-primary">
+              <Briefcase className="w-5 h-5" />
+              <span>หางาน</span>
+            </button>
+            <button onClick={() => { navigate('/auth'); setMobileMenuOpen(false); }} className="flex items-center gap-3 w-full p-3 rounded-xl text-white/80">
+              <Users className="w-5 h-5" />
+              <span>นักศึกษา</span>
+            </button>
+            {!user && (
+              <Button onClick={() => { navigate('/auth'); setMobileMenuOpen(false); }} className="w-full bg-primary text-white rounded-full">
+                สมัครสมาชิก
+              </Button>
+            )}
+          </div>
+        )}
+      </nav>
+
+      {/* Hero Header */}
+      <section className="pt-32 pb-12 relative overflow-hidden">
+        <div className="absolute inset-0">
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
+        </div>
+        
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="text-center max-w-4xl mx-auto">
+            <Badge className="bg-primary/20 text-primary border-0 px-4 py-2 mb-6">
+              <Briefcase className="w-4 h-4 mr-2" />
+              {jobs.length}+ ตำแหน่งงานใหม่
+            </Badge>
+            <h1 className="text-4xl md:text-6xl font-black text-white mb-6">
+              ค้นหางานที่<span className="text-primary">ใช่</span>สำหรับคุณ
             </h1>
-            <p className="text-xl text-gray-600 leading-relaxed">
-              ค้นพบโอกาสทางอาชีพที่เหมาะสมกับคุณ จากบริษัทชั้นนำทั่วประเทศ
+            <p className="text-white/60 text-lg max-w-2xl mx-auto">
+              ค้นพบโอกาสทางอาชีพที่เหมาะสมกับคุณ จากบริษัทชั้นนำที่ลงประกาศใน SPU Freelance
             </p>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Main Content */}
-      <div className="container mx-auto px-6 py-12">
-        {/* Search and Filters Card */}
-        <Card className="bg-white/95 backdrop-blur-xl shadow-2xl shadow-pink-100/50 border-0 rounded-[28px] mb-12 animate-fade-in-scale">
-          <CardContent className="pt-8 pb-8">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-              <div className="md:col-span-2">
-                <div className="relative">
-                  <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-                  <Input
-                    placeholder="ค้นหาตำแหน่งงาน, บริษัท, หรือทักษะ..."
-                    className="h-14 pl-12 bg-gray-50 border-2 border-gray-200 rounded-2xl focus:bg-white focus:border-pink-400 focus:ring-4 focus:ring-pink-100 transition-all duration-300 text-base font-medium"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                  />
-                </div>
+      {/* Stats */}
+      <section className="py-8">
+        <div className="container mx-auto px-6">
+          <div className="grid grid-cols-3 gap-4 max-w-3xl mx-auto">
+            <div className="bg-[#2a2a2a]/50 rounded-2xl p-4 text-center border border-white/10">
+              <Briefcase className="w-6 h-6 text-primary mx-auto mb-2" />
+              <p className="text-2xl font-black text-white">{stats.jobs}</p>
+              <p className="text-white/50 text-sm">งาน</p>
+            </div>
+            <div className="bg-[#2a2a2a]/50 rounded-2xl p-4 text-center border border-white/10">
+              <Building className="w-6 h-6 text-primary mx-auto mb-2" />
+              <p className="text-2xl font-black text-white">{stats.companies}</p>
+              <p className="text-white/50 text-sm">บริษัท</p>
+            </div>
+            <div className="bg-[#2a2a2a]/50 rounded-2xl p-4 text-center border border-white/10">
+              <GraduationCap className="w-6 h-6 text-primary mx-auto mb-2" />
+              <p className="text-2xl font-black text-white">{stats.students}</p>
+              <p className="text-white/50 text-sm">นักศึกษา</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Search & Filters */}
+      <section className="py-8">
+        <div className="container mx-auto px-6">
+          <div className="bg-[#2a2a2a]/50 rounded-2xl p-6 border border-white/10 max-w-5xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <div className="md:col-span-2 relative">
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white/40 h-5 w-5" />
+                <Input
+                  placeholder="ค้นหาตำแหน่งงาน, บริษัท..."
+                  className="h-14 pl-12 bg-[#1a1a1a] border-white/10 rounded-xl text-white placeholder:text-white/40 focus:border-primary"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
               </div>
-
               <Select value={selectedType} onValueChange={setSelectedType}>
-                <SelectTrigger className="h-14 bg-gray-50 border-2 border-gray-200 rounded-2xl focus:border-pink-400 focus:ring-4 focus:ring-pink-100 transition-all duration-300 text-base font-medium">
+                <SelectTrigger className="h-14 bg-[#1a1a1a] border-white/10 rounded-xl text-white">
                   <SelectValue placeholder="ประเภทงาน" />
                 </SelectTrigger>
-                <SelectContent className="rounded-2xl">
+                <SelectContent className="bg-[#2a2a2a] border-white/10 text-white">
                   <SelectItem value="all">ทุกประเภท</SelectItem>
                   <SelectItem value="internship">ฝึกงาน</SelectItem>
                   <SelectItem value="freelance">ฟรีแลนซ์</SelectItem>
-                  <SelectItem value="parttime">งานชั่วคราว</SelectItem>
-                  <SelectItem value="fulltime">งานเต็มเวลา</SelectItem>
-                  <SelectItem value="coop">สหกิจ</SelectItem>
+                  <SelectItem value="parttime">Part-time</SelectItem>
+                  <SelectItem value="fulltime">Full-time</SelectItem>
                 </SelectContent>
               </Select>
-
               <Select value={selectedLocation} onValueChange={setSelectedLocation}>
-                <SelectTrigger className="h-14 bg-gray-50 border-2 border-gray-200 rounded-2xl focus:border-pink-400 focus:ring-4 focus:ring-pink-100 transition-all duration-300 text-base font-medium">
+                <SelectTrigger className="h-14 bg-[#1a1a1a] border-white/10 rounded-xl text-white">
                   <SelectValue placeholder="สถานที่" />
                 </SelectTrigger>
-                <SelectContent className="rounded-2xl">
+                <SelectContent className="bg-[#2a2a2a] border-white/10 text-white">
                   <SelectItem value="all">ทุกสถานที่</SelectItem>
                   <SelectItem value="bangkok">กรุงเทพฯ</SelectItem>
-                  <SelectItem value="remote">ทำงานจากที่บ้าน</SelectItem>
-                  <SelectItem value="hybrid">แบบผสม</SelectItem>
+                  <SelectItem value="remote">Remote</SelectItem>
+                  <SelectItem value="hybrid">Hybrid</SelectItem>
                 </SelectContent>
               </Select>
             </div>
-
-            <div className="flex items-center justify-between">
-              <div className="flex gap-3">
-                <Button
-                  variant="outline"
-                  className="border-2 border-gray-200 hover:border-pink-300 hover:bg-pink-50 rounded-xl font-semibold transition-all duration-300"
-                >
-                  <Filter className="w-4 h-4 mr-2" />
-                  ตัวกรองเพิ่มเติม
-                </Button>
-              </div>
-
-              <div className="text-sm text-gray-600 font-medium">
-                พบ <span className="text-pink-600 font-bold text-base">{filteredJobs.length}</span> ตำแหน่งงาน
-              </div>
+            <div className="flex items-center justify-between mt-4 pt-4 border-t border-white/10">
+              <p className="text-white/50 text-sm">
+                พบ <span className="text-primary font-bold">{filteredJobs.length}</span> ตำแหน่งงาน
+              </p>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
+      </section>
 
-        {/* Jobs List */}
-        <div className="space-y-6">
-          {loading ? (
-            <div className="grid gap-6">
-              {[1, 2, 3].map((i) => (
-                <Card key={i} className="bg-white/80 backdrop-blur-xl rounded-[28px] animate-pulse">
-                  <CardHeader className="pb-4">
-                    <div className="h-8 bg-gray-200 rounded-xl w-2/3 mb-3"></div>
-                    <div className="h-5 bg-gray-200 rounded-lg w-1/2"></div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="h-20 bg-gray-200 rounded-xl mb-4"></div>
-                    <div className="flex gap-2">
-                      <div className="h-8 bg-gray-200 rounded-full w-20"></div>
-                      <div className="h-8 bg-gray-200 rounded-full w-24"></div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          ) : (
-            <div className="grid gap-6">
-              {filteredJobs.map((job, index) => (
-                <Card
+      {/* Jobs List */}
+      <section className="py-8 pb-20">
+        <div className="container mx-auto px-6">
+          <div className="max-w-5xl mx-auto space-y-6">
+            {loading ? (
+              [1, 2, 3].map((i) => (
+                <div key={i} className="bg-[#2a2a2a]/50 rounded-2xl p-6 border border-white/10 animate-pulse">
+                  <div className="h-6 bg-white/10 rounded w-2/3 mb-4"></div>
+                  <div className="h-4 bg-white/10 rounded w-1/2 mb-4"></div>
+                  <div className="h-20 bg-white/10 rounded"></div>
+                </div>
+              ))
+            ) : filteredJobs.length > 0 ? (
+              filteredJobs.map((job) => (
+                <div
                   key={job.id}
-                  className="bg-white/95 backdrop-blur-xl shadow-lg shadow-gray-100/50 hover:shadow-2xl hover:shadow-pink-100/50 transition-all duration-300 border-0 rounded-[28px] group hover:-translate-y-1 animate-fade-in"
-                  style={{ animationDelay: `${index * 0.1}s` }}
+                  className="bg-[#2a2a2a]/50 rounded-2xl p-6 border border-white/10 hover:border-primary/50 transition-all duration-300 group"
                 >
-                  <CardHeader className="pb-4">
-                    <div className="flex justify-between items-start gap-4">
-                      <div className="flex-1">
-                        <div className="flex items-start gap-3 mb-4">
-                          <div className="w-14 h-14 bg-gradient-to-br from-pink-500 to-rose-600 rounded-2xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-pink-500/30 shrink-0">
-                            {job.companies?.name?.charAt(0) || "C"}
+                  <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-4">
+                    <div className="flex items-start gap-4">
+                      <div className="w-14 h-14 bg-gradient-to-br from-primary to-orange-600 rounded-2xl flex items-center justify-center text-white font-bold text-xl shrink-0">
+                        {job.companies?.name?.charAt(0) || "C"}
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-bold text-white group-hover:text-primary transition-colors mb-2">
+                          {job.title}
+                        </h3>
+                        <div className="flex flex-wrap items-center gap-3 text-white/60 text-sm">
+                          <div className="flex items-center gap-1">
+                            <Building className="w-4 h-4" />
+                            <span>{job.companies?.name || "ไม่ระบุ"}</span>
+                            {job.companies?.verified && <CheckCircle2 className="w-4 h-4 text-green-500" />}
                           </div>
-                          <div className="flex-1">
-                            <CardTitle className="text-2xl font-bold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">
-                              {job.title}
-                            </CardTitle>
-                            <div className="flex flex-wrap items-center gap-4 text-gray-600">
-                              <div className="flex items-center gap-1.5">
-                                <Building className="w-4 h-4" />
-                                <span className="font-medium">{job.companies?.name || "Unknown Company"}</span>
-                                {job.companies?.verified && (
-                                  <CheckCircle2 className="w-4 h-4 text-pink-500 fill-pink-50" />
-                                )}
-                              </div>
-                              <div className="flex items-center gap-1.5">
-                                <MapPin className="w-4 h-4" />
-                                <span>{job.location || "ไม่ระบุ"}</span>
-                              </div>
-                              <div className="flex items-center gap-1.5">
-                                <Clock className="w-4 h-4" />
-                                <span>{new Date(job.created_at).toLocaleDateString("th-TH")}</span>
-                              </div>
-                            </div>
+                          <div className="flex items-center gap-1">
+                            <MapPin className="w-4 h-4" />
+                            <span>{job.location || "ไม่ระบุ"}</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <Clock className="w-4 h-4" />
+                            <span>{new Date(job.created_at).toLocaleDateString("th-TH")}</span>
                           </div>
                         </div>
                       </div>
-
-                      <div className="flex flex-col items-end gap-3 shrink-0">
-                        <Badge
-                          className={`${getJobTypeColor(job.job_type)} text-white px-4 py-2 text-sm font-bold shadow-md hover:shadow-lg transition-all duration-300`}
-                        >
-                          {getJobTypeLabel(job.job_type)}
+                    </div>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <Badge className="bg-primary/20 text-primary border-0">
+                        {getJobTypeLabel(job.job_type)}
+                      </Badge>
+                      {job.budget_or_salary && (
+                        <Badge className="bg-green-500/20 text-green-400 border-0">
+                          <DollarSign className="w-3 h-3 mr-1" />
+                          {job.budget_or_salary}
                         </Badge>
-                        {job.budget_or_salary && (
-                          <div className="flex items-center gap-1.5 bg-gradient-to-r from-green-50 to-emerald-50 text-green-700 px-4 py-2 rounded-xl font-bold shadow-sm">
-                            <DollarSign className="w-4 h-4" />
-                            <span className="text-sm">{job.budget_or_salary}</span>
-                          </div>
-                        )}
-                      </div>
+                      )}
                     </div>
-                  </CardHeader>
+                  </div>
 
-                  <CardContent className="pt-0 space-y-6">
-                    <p className="text-gray-600 leading-relaxed line-clamp-3">{job.description}</p>
+                  <p className="text-white/50 mb-4 line-clamp-2">{job.description}</p>
 
-                    {job.requirements && Array.isArray(job.requirements) && job.requirements.length > 0 && (
-                      <div className="flex flex-wrap gap-2">
-                        {job.requirements?.slice(0, 5).map((req: string, index: number) => (
-                          <Badge
-                            key={index}
-                            variant="outline"
-                            className="text-sm px-3 py-1.5 border-2 border-pink-200 text-pink-700 bg-pink-50 hover:bg-pink-100 transition-colors font-medium"
-                          >
-                            {req}
-                          </Badge>
-                        ))}
-                        {job.requirements?.length > 5 && (
-                          <Badge
-                            variant="outline"
-                            className="text-sm px-3 py-1.5 border-2 border-gray-200 text-gray-700 bg-gray-50 font-medium"
-                          >
-                            +{job.requirements.length - 5} อื่นๆ
-                          </Badge>
-                        )}
-                      </div>
-                    )}
-
-                    <div className="flex justify-between items-center pt-4 border-t-2 border-gray-100">
-                      <div className="flex items-center gap-2 text-gray-600">
-                        <Clock className="w-4 h-4" />
-                        <span className="text-sm font-medium">
-                          {job.deadline_at
-                            ? `หมดเขต: ${new Date(job.deadline_at).toLocaleDateString("th-TH")}`
-                            : "ไม่กำหนดเวลา"}
-                        </span>
-                      </div>
-
-                      <Button
-                        className="bg-gradient-to-r from-pink-600 via-rose-600 to-pink-700 hover:from-pink-700 hover:via-rose-700 hover:to-pink-800 text-white font-bold px-8 py-6 rounded-2xl shadow-lg shadow-pink-500/40 hover:shadow-xl hover:shadow-pink-500/50 transition-all duration-300 hover:scale-105 active:scale-95 group"
-                        onClick={() => handleApply(job.id)}
-                        disabled={!user}
-                      >
-                        {user ? (
-                          <>
-                            <span>สมัครงาน</span>
-                            <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                          </>
-                        ) : (
-                          "เข้าสู่ระบบเพื่อสมัคร"
-                        )}
-                      </Button>
+                  {job.requirements && Array.isArray(job.requirements) && job.requirements.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {job.requirements.slice(0, 5).map((req: string, index: number) => (
+                        <Badge key={index} variant="outline" className="border-white/20 text-white/60 text-xs">
+                          {req}
+                        </Badge>
+                      ))}
                     </div>
-                  </CardContent>
-                </Card>
-              ))}
+                  )}
 
-              {!loading && filteredJobs.length === 0 && (
-                <Card className="bg-white/95 backdrop-blur-xl rounded-[28px] text-center py-20 shadow-lg animate-fade-in">
-                  <CardContent>
-                    <div className="w-20 h-20 bg-gradient-to-br from-pink-100 to-rose-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                      <Briefcase className="w-10 h-10 text-pink-500" />
-                    </div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-3">ไม่พบตำแหน่งงานที่ตรงกับเงื่อนไข</h3>
-                    <p className="text-gray-600 text-lg mb-8">ลองเปลี่ยนคำค้นหาหรือตัวกรองเพื่อดูตำแหน่งงานเพิ่มเติม</p>
+                  <div className="flex gap-3">
                     <Button
-                      onClick={() => {
-                        setSearchTerm("");
-                        setSelectedType("all");
-                        setSelectedLocation("all");
-                      }}
-                      className="bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-700 hover:to-rose-700 text-white font-bold px-8 py-6 rounded-2xl shadow-lg shadow-pink-500/40"
+                      onClick={() => handleApply(job.id)}
+                      className="bg-primary hover:bg-primary/90 text-white rounded-xl"
                     >
-                      รีเซ็ตตัวกรอง
+                      สมัครงาน
+                      <ArrowRight className="w-4 h-4 ml-2" />
                     </Button>
-                  </CardContent>
-                </Card>
-              )}
-            </div>
-          )}
+                    <Button variant="outline" className="border-white/20 text-white hover:bg-white/10 rounded-xl">
+                      ดูรายละเอียด
+                    </Button>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="text-center py-16">
+                <Briefcase className="w-20 h-20 text-white/20 mx-auto mb-6" />
+                <p className="text-white/60 text-xl mb-2">ไม่พบงานที่ตรงกับการค้นหา</p>
+                <p className="text-white/40 text-sm mb-6">ลองปรับเงื่อนไขการค้นหาใหม่</p>
+                <Button onClick={() => { setSearchTerm(""); setSelectedType("all"); setSelectedLocation("all"); }} variant="outline" className="border-primary text-primary hover:bg-primary hover:text-white rounded-full">
+                  ล้างตัวกรอง
+                </Button>
+              </div>
+            )}
+          </div>
         </div>
+      </section>
 
-        {/* CTA Section */}
-        {!loading && filteredJobs.length > 0 && (
-          <Card className="bg-gradient-to-r from-pink-600 via-rose-600 to-pink-700 text-white rounded-[28px] mt-12 shadow-2xl shadow-pink-500/40 border-0 animate-fade-in">
-            <CardContent className="py-12 text-center">
-              <Sparkles className="w-12 h-12 mx-auto mb-4" />
-              <h3 className="text-3xl font-bold mb-4">ไม่พบงานที่ใช่?</h3>
-              <p className="text-xl text-pink-100 mb-8 max-w-2xl mx-auto">
-                สมัครสมาชิกเพื่อรับการแจ้งเตือนงานใหม่ที่เหมาะกับคุณ
-              </p>
-              <Button
-                onClick={() => navigate("/auth")}
-                className="bg-white text-pink-600 hover:bg-pink-50 font-bold px-8 py-6 rounded-2xl shadow-xl hover:scale-105 transition-all duration-300"
-              >
-                สมัครสมาชิกฟรี
-              </Button>
-            </CardContent>
-          </Card>
-        )}
-      </div>
+      {/* CTA Section */}
+      <section className="py-16 bg-gradient-to-r from-primary/20 via-[#1a1a1a] to-primary/20 border-y border-white/10">
+        <div className="container mx-auto px-6 text-center">
+          <h2 className="text-3xl font-black text-white mb-4">สำหรับธุรกิจ/บริษัท</h2>
+          <p className="text-white/60 mb-8 max-w-xl mx-auto">
+            ลงทะเบียนธุรกิจของคุณและโพสต์ตำแหน่งงาน เพื่อเข้าถึงนักศึกษาที่มีความสามารถจาก SPU
+          </p>
+          <Button size="lg" onClick={() => navigate('/business-auth')} className="bg-primary hover:bg-primary/90 text-white rounded-full px-10">
+            <Building className="w-5 h-5 mr-2" />
+            ลงทะเบียนธุรกิจ
+          </Button>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-[#0f0f0f] py-12 border-t border-white/10">
+        <div className="container mx-auto px-6 text-center">
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <span className="text-2xl font-black text-white">SPU</span>
+            <span className="text-2xl font-black text-primary">Freelance</span>
+          </div>
+          <p className="text-white/30 text-sm">
+            © 2025 SPU Freelance By SPU School of Entrepreneurship. All Rights Reserved.
+          </p>
+        </div>
+      </footer>
     </div>
   );
 };
