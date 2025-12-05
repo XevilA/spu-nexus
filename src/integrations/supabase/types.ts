@@ -1214,28 +1214,16 @@ export type Database = {
       }
     }
     Functions: {
-      create_admin_profile: {
-        Args: Record<PropertyKey, never>
-        Returns: undefined
-      }
-      create_admin_whitelist_if_not_exists: {
-        Args: Record<PropertyKey, never>
-        Returns: undefined
-      }
+      create_admin_profile: { Args: never; Returns: undefined }
+      create_admin_whitelist_if_not_exists: { Args: never; Returns: undefined }
       create_bucket_policies: {
         Args: { bucket_name: string; is_public: boolean }
         Returns: undefined
       }
-      create_profiles_table_if_not_exists: {
-        Args: Record<PropertyKey, never>
-        Returns: undefined
-      }
-      get_current_user_role: {
-        Args: Record<PropertyKey, never>
-        Returns: string
-      }
+      create_profiles_table_if_not_exists: { Args: never; Returns: undefined }
+      get_current_user_role: { Args: never; Returns: string }
       get_public_contact_info: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           facebook_url: string
           id: string
