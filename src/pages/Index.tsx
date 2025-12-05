@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { 
   Briefcase, Users, LogIn, UserPlus, ChevronDown, Building, 
-  MapPin, Clock, DollarSign, Search, Menu, X, Image, FileText, GraduationCap,
+  MapPin, DollarSign, Search, Menu, X, GraduationCap,
   ArrowRight, CheckCircle2
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
@@ -84,17 +84,6 @@ const Index = () => {
     }
   };
 
-  const portfolioImages = [
-    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=400&fit=crop",
-    "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&h=400&fit=crop",
-    "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=300&h=400&fit=crop",
-    "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&h=400&fit=crop",
-    "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&h=400&fit=crop",
-    "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=300&h=400&fit=crop",
-    "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=300&h=400&fit=crop",
-    "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=300&h=400&fit=crop",
-  ];
-
   const scrollToContent = () => {
     const element = document.getElementById('jobs-section');
     element?.scrollIntoView({ behavior: 'smooth' });
@@ -147,7 +136,7 @@ const Index = () => {
               </div>
               <div className="hidden lg:block h-8 w-px bg-white/30"></div>
               <span className="hidden lg:block text-xs font-bold tracking-[0.2em] text-white/60">
-                PORTFOLIO HUB
+                SCHOOL OF ENTREPRENEURSHIP
               </span>
             </div>
 
@@ -234,34 +223,29 @@ const Index = () => {
 
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Portfolio Grid Background */}
+        {/* Abstract Background */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute inset-0 grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 p-2 opacity-40">
-            {[...portfolioImages, ...portfolioImages, ...portfolioImages, ...portfolioImages, ...portfolioImages, ...portfolioImages].map((img, index) => (
-              <div 
-                key={index} 
-                className="aspect-[3/4] rounded-lg bg-cover bg-center"
-                style={{ 
-                  backgroundImage: `url(${img})`,
-                  transform: `translateY(${(index % 4) * 15}px)`,
-                }}
-              />
-            ))}
+          <div className="absolute inset-0 bg-[#1a1a1a]">
+            {/* Geometric shapes */}
+            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border border-white/5 rounded-full"></div>
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-white/5 rounded-full"></div>
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] border border-primary/10 rounded-full"></div>
           </div>
           {/* Dark Gradient Overlays */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#1a1a1a] via-[#1a1a1a]/80 to-[#1a1a1a]"></div>
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/30 via-transparent to-primary/30"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-[#1a1a1a] via-transparent to-[#1a1a1a]"></div>
         </div>
 
         {/* Content */}
         <div className="relative z-10 text-center px-6 max-w-6xl mx-auto pt-20">
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-white mb-4 tracking-tight leading-[0.95]">
-            SPU<span className="text-primary">CA</span> PORTFOLIO HUB
+            SPU <span className="text-primary">Freelance</span>
           </h1>
           
           <div className="bg-[#2a2a2a]/80 backdrop-blur-md rounded-full px-8 py-4 inline-block mb-8 border border-white/10">
             <p className="text-white/90 text-lg md:text-xl">
-              ศูนย์รวม Portfolio ของเด็กนิเทศ SPU แบบ Real-time
+              ศูนย์รวมงานและ Freelance ของเด็ก SPU
             </p>
           </div>
 
@@ -284,27 +268,27 @@ const Index = () => {
         <div className="container mx-auto px-6">
           {/* Title */}
           <h2 className="text-4xl md:text-5xl font-black text-primary text-center mb-12">
-            ผลงานทั้งหมด
+            งานทั้งหมด
           </h2>
 
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
             <div className="bg-[#2a2a2a]/50 backdrop-blur-sm rounded-2xl p-6 border border-white/10 flex items-center gap-4">
               <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center">
-                <Image className="w-8 h-8 text-white" />
+                <Briefcase className="w-8 h-8 text-white" />
               </div>
               <div>
                 <p className="text-4xl font-black text-white">{stats.jobs || "0"}</p>
-                <p className="text-white/60">ผลงาน</p>
+                <p className="text-white/60">งาน</p>
               </div>
             </div>
             <div className="bg-[#2a2a2a]/50 backdrop-blur-sm rounded-2xl p-6 border border-white/10 flex items-center gap-4">
               <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center">
-                <FileText className="w-8 h-8 text-white" />
+                <Building className="w-8 h-8 text-white" />
               </div>
               <div>
                 <p className="text-4xl font-black text-white">{stats.companies || "0"}</p>
-                <p className="text-white/60">วิชา</p>
+                <p className="text-white/60">บริษัท</p>
               </div>
             </div>
             <div className="bg-[#2a2a2a]/50 backdrop-blur-sm rounded-2xl p-6 border border-white/10 flex items-center gap-4">
@@ -320,11 +304,11 @@ const Index = () => {
 
           {/* Search & Filters */}
           <div className="bg-[#2a2a2a]/50 backdrop-blur-sm rounded-2xl p-6 border border-white/10 mb-12">
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div className="md:col-span-2 relative">
                 <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white/40 h-5 w-5" />
                 <Input
-                  placeholder="ค้นหาจากชื่อ, รหัสนักศึกษา..."
+                  placeholder="ค้นหาจากชื่องาน, ชื่อบริษัท..."
                   className="h-14 pl-12 bg-[#1a1a1a] border-white/10 rounded-xl text-white placeholder:text-white/40 focus:border-primary"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
@@ -332,7 +316,7 @@ const Index = () => {
               </div>
               <Select value={selectedType} onValueChange={setSelectedType}>
                 <SelectTrigger className="h-14 bg-[#1a1a1a] border-white/10 rounded-xl text-white">
-                  <SelectValue placeholder="-- ทุกรายวิชา --" />
+                  <SelectValue placeholder="-- ทุกประเภท --" />
                 </SelectTrigger>
                 <SelectContent className="bg-[#2a2a2a] border-white/10 text-white">
                   <SelectItem value="all">ทุกประเภท</SelectItem>
@@ -340,17 +324,6 @@ const Index = () => {
                   <SelectItem value="freelance">ฟรีแลนซ์</SelectItem>
                   <SelectItem value="parttime">Part-time</SelectItem>
                   <SelectItem value="fulltime">Full-time</SelectItem>
-                </SelectContent>
-              </Select>
-              <Select>
-                <SelectTrigger className="h-14 bg-[#1a1a1a] border-white/10 rounded-xl text-white">
-                  <SelectValue placeholder="-- ทุกสาขา --" />
-                </SelectTrigger>
-                <SelectContent className="bg-[#2a2a2a] border-white/10 text-white">
-                  <SelectItem value="all">ทุกสาขา</SelectItem>
-                  <SelectItem value="design">ออกแบบ</SelectItem>
-                  <SelectItem value="dev">พัฒนา</SelectItem>
-                  <SelectItem value="marketing">การตลาด</SelectItem>
                 </SelectContent>
               </Select>
               <Button className="h-14 bg-primary hover:bg-primary/90 text-white rounded-xl font-bold">
@@ -365,81 +338,78 @@ const Index = () => {
             {jobsLoading ? (
               [1, 2, 3].map((i) => (
                 <div key={i} className="bg-[#2a2a2a]/50 rounded-2xl overflow-hidden border border-white/10 animate-pulse">
-                  <div className="aspect-[4/3] bg-white/10"></div>
-                  <div className="p-5">
+                  <div className="p-6">
                     <div className="h-6 bg-white/10 rounded mb-3"></div>
-                    <div className="h-4 bg-white/10 rounded w-2/3"></div>
+                    <div className="h-4 bg-white/10 rounded w-2/3 mb-4"></div>
+                    <div className="h-4 bg-white/10 rounded w-1/2"></div>
                   </div>
                 </div>
               ))
             ) : filteredJobs.length > 0 ? (
-              filteredJobs.map((job, index) => (
+              filteredJobs.map((job) => (
                 <div 
                   key={job.id} 
                   className="bg-[#2a2a2a]/50 rounded-2xl overflow-hidden border border-white/10 hover:border-primary/50 transition-all duration-300 group cursor-pointer"
                   onClick={() => navigate('/jobs')}
                 >
-                  {/* Card Header/Image */}
-                  <div className="aspect-[4/3] bg-gradient-to-br from-[#2a2a2a] to-[#1a1a1a] relative overflow-hidden">
-                    <div className="absolute inset-0 flex flex-col justify-between p-4">
-                      <div className="flex justify-between items-start">
-                        <span className="text-xs text-white/60">School of Entrepreneurship</span>
-                        <span className="text-xs text-white/60">ID: {job.id?.slice(0, 8)}</span>
-                      </div>
-                      <div>
-                        <p className="text-6xl font-black text-primary/20">FD67</p>
-                        <p className="text-2xl font-bold text-white">SPU CA</p>
-                        <p className="text-white/60 text-sm">A PROCESS PORTFOLIO</p>
-                      </div>
+                  {/* Card Header */}
+                  <div className="bg-gradient-to-br from-primary/20 to-[#1a1a1a] p-4 border-b border-white/10">
+                    <div className="flex justify-between items-start">
+                      <Badge className="bg-primary/20 text-primary border-0 text-xs">
+                        {getJobTypeLabel(job.job_type)}
+                      </Badge>
+                      <span className="text-xs text-white/40">
+                        {new Date(job.created_at).toLocaleDateString("th-TH")}
+                      </span>
                     </div>
-                    {/* Profile Image */}
-                    <div className="absolute top-4 right-4 w-20 h-24 bg-cover bg-center rounded-lg" 
-                      style={{ backgroundImage: `url(${portfolioImages[index % portfolioImages.length]})` }}
-                    />
                   </div>
                   
                   {/* Card Content */}
                   <div className="p-5">
-                    <h3 className="text-primary font-bold text-lg mb-2 group-hover:text-primary/80 transition-colors line-clamp-2">
+                    <h3 className="text-white font-bold text-lg mb-3 group-hover:text-primary transition-colors line-clamp-2">
                       {job.title}
                     </h3>
                     <div className="flex items-center gap-2 text-white/60 text-sm mb-3">
-                      <Building className="w-4 h-4" />
-                      <span>{job.companies?.name || "SPU Freelance"}</span>
-                      {job.companies?.verified && <CheckCircle2 className="w-4 h-4 text-primary" />}
+                      <Building className="w-4 h-4 text-primary" />
+                      <span>{job.companies?.name || "ไม่ระบุบริษัท"}</span>
+                      {job.companies?.verified && <CheckCircle2 className="w-4 h-4 text-green-500" />}
                     </div>
-                    <div className="flex items-center gap-4 text-white/50 text-sm">
+                    <div className="flex flex-wrap items-center gap-3 text-white/50 text-sm mb-4">
                       <div className="flex items-center gap-1">
                         <MapPin className="w-3 h-3" />
-                        <span>{job.location || "กรุงเทพฯ"}</span>
+                        <span>{job.location || "ไม่ระบุ"}</span>
                       </div>
-                      <div className="flex items-center gap-1">
-                        <Clock className="w-3 h-3" />
-                        <span>{new Date(job.created_at).toLocaleDateString("th-TH")}</span>
-                      </div>
+                      {job.budget_or_salary && (
+                        <div className="flex items-center gap-1">
+                          <DollarSign className="w-3 h-3" />
+                          <span>{job.budget_or_salary}</span>
+                        </div>
+                      )}
                     </div>
                     
-                    {/* Student Info */}
-                    <div className="flex items-center gap-3 mt-4 pt-4 border-t border-white/10">
-                      <div className="w-10 h-10 rounded-full bg-cover bg-center border-2 border-primary"
-                        style={{ backgroundImage: `url(${portfolioImages[(index + 1) % portfolioImages.length]})` }}
-                      />
-                      <div>
-                        <p className="text-white font-medium text-sm">นักศึกษา SPU</p>
-                        <p className="text-primary text-xs">67XXXXXX</p>
-                      </div>
-                    </div>
+                    <p className="text-white/40 text-sm line-clamp-2 mb-4">
+                      {job.description}
+                    </p>
+                    
+                    <Button 
+                      variant="outline"
+                      className="w-full border-primary/50 text-primary hover:bg-primary hover:text-white"
+                      onClick={(e) => { e.stopPropagation(); navigate('/jobs'); }}
+                    >
+                      ดูรายละเอียด
+                      <ArrowRight className="w-4 h-4 ml-2" />
+                    </Button>
                   </div>
                 </div>
               ))
             ) : (
-              <div className="col-span-full text-center py-12">
-                <Briefcase className="w-16 h-16 text-white/20 mx-auto mb-4" />
-                <p className="text-white/60 text-lg">ยังไม่มีงานในระบบ</p>
-                <p className="text-white/40 text-sm mt-2">บริษัทสามารถลงทะเบียนและโพสต์งานได้ที่นี่</p>
+              <div className="col-span-full text-center py-16">
+                <Briefcase className="w-20 h-20 text-white/20 mx-auto mb-6" />
+                <p className="text-white/60 text-xl font-semibold mb-2">ยังไม่มีงานในระบบ</p>
+                <p className="text-white/40 text-sm mb-8">บริษัทสามารถลงทะเบียนและโพสต์งานได้ที่นี่</p>
                 <Button 
                   onClick={() => navigate('/business-auth')}
-                  className="mt-6 bg-primary hover:bg-primary/90 text-white rounded-full"
+                  className="bg-primary hover:bg-primary/90 text-white rounded-full px-8"
                 >
                   <Building className="w-4 h-4 mr-2" />
                   ลงทะเบียนธุรกิจ
@@ -500,12 +470,12 @@ const Index = () => {
           <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-8">
             <div className="flex items-center gap-2">
               <span className="text-2xl font-black text-white">SPU</span>
-              <span className="text-2xl font-black text-primary">CA</span>
-              <span className="text-white/40 ml-2">| PORTFOLIO HUB</span>
+              <span className="text-2xl font-black text-primary">Freelance</span>
+              <span className="text-white/40 ml-2">| School of Entrepreneurship</span>
             </div>
             <div className="flex items-center gap-6 text-white/50">
               <button onClick={() => navigate('/jobs')} className="hover:text-white transition-colors">
-                ผลงาน
+                หางาน
               </button>
               <button onClick={() => navigate('/auth')} className="hover:text-white transition-colors">
                 นักศึกษา
@@ -519,7 +489,7 @@ const Index = () => {
             </div>
           </div>
           <div className="text-center text-white/30 text-sm">
-            © 2025 SPUCA Portfolio Hub. All Rights Reserved.
+            © 2025 SPU Freelance By SPU School of Entrepreneurship. All Rights Reserved.
           </div>
         </div>
       </footer>
